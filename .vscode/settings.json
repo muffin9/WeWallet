@@ -1,0 +1,26 @@
+{
+  "editor.formatOnSave": true,
+  "yaml.schemas": {
+    "file:///Users/p-073/.vscode/extensions/atlassian.atlascode-3.0.3/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
+  },
+  "editor.fontVariations": false,
+
+  "files.associations": {
+    "*.ts": "typescript",
+    "*.tsx": "typescriptreact"
+  },
+
+  "typescript.validate.enable": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "workbench.iconTheme": "vscode-icons",
+  "autoprefixer.formatOnSave": true,
+  "eslint.codeActionsOnSave.rules": null,
+  "prettier.configPath": ".prettierrc",
+  "liveSassCompile.settings.excludeList": ["**/node_modules/**", ".vscode/**"]
+}

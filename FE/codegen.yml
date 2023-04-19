@@ -1,0 +1,12 @@
+schema: ${REACT_APP_PUBLIC_API_SERVER}${REACT_APP_PUBLIC_GQL_VERSION}
+documents:
+  - "./src/api/*.ts"
+generates:
+  ./src/types/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+hooks:
+  afterAllFileWrite:
+    - prettier --write
