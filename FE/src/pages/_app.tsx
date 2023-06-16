@@ -1,16 +1,38 @@
-import GlobalStyles from "@/styles/GlobalStyles";
-import type { AppProps } from "next/app";
-import { RecoilRoot } from "recoil";
-import { ApolloProvider } from "@apollo/client";
-import client from "@/utils/apollo";
+import '../styles/reset.css';
+import { useEffect } from 'react';
 
-export default function App({ Component, pageProps }: AppProps) {
+import { AppProps } from 'next/app';
+
+import { server } from '@/mocks/browsers/testServer';
+import GlobalStore from '@/store/GlobalStore';
+import QueryProvider from '@/utils/QueryProvider';
+
+import { Global, ThemeProvider } from '@emotion/react';
+
+if (process.env.NODE_ENV === 'development') {
+  server.listen();
+}
+
+function MyApp({ Component, pageProps }: AppProps) {
+  const { theme } = GlobalStore();
+
+  useEffect(
+    () => () => {
+      if (server) {
+        server.close();
+      }
+    },
+    [],
+  );
+
   return (
-    <ApolloProvider client={client}>
-      <RecoilRoot>
-        <GlobalStyles />
+    <QueryProvider>
+      <ThemeProvider theme={{ mode: theme }}>
+        <Global styles={{}} />
         <Component {...pageProps} />
-      </RecoilRoot>
-    </ApolloProvider>
+      </ThemeProvider>
+    </QueryProvider>
   );
 }
+
+export default MyApp;

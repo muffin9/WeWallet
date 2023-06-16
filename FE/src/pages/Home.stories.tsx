@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import Home from "./index";
+import Home from './index';
 
 export default {
-  title: "Pages/Index",
+  title: 'Pages/Index',
   component: Home,
 };
 

@@ -1,25 +1,31 @@
-const path = require("path");
+const path = require('path');
+
+const toPath = (_path) => path.join(process.cwd(), _path);
 
 module.exports = {
-  framework: "@storybook/nextjs",
-  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx)"],
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
-    "@storybook/preset-create-react-app",
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
   ],
-  core: {
-    builder: "webpack5",
-  },
-  webpackFinal: async (config, { configType }) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      "@": path.resolve(__dirname, "../src"),
+  webpackFinal: async (config) => {
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve.alias,
+          '@': path.resolve(__dirname, '../src'),
+          '@emotion/core': toPath('node_modules/@emotion/react'),
+          '@emotion/styled': toPath('node_modules/@emotion/styled'),
+          'emotion-theming': toPath('node_modules/@emotion/react'),
+        },
+      },
     };
-    return config;
   },
-  features: {
-    previewCsfV3: true,
+  framework: {
+    name: '@storybook/nextjs',
+    options: {},
   },
 };
