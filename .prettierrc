@@ -1,0 +1,38 @@
+{
+  "overrides": [
+    {
+      "files": ["FE/**/*.{js,jsx,ts,tsx}"],
+      "options": {
+        "arrowParens": "always",
+        "trailingComma": "all",
+        "tabWidth": 2,
+        "singleQuote": true,
+        "semi": true,
+        "useTabs": false,
+        "printWidth": 80,
+        "bracketSpacing": true,
+        "rangeStart": 0,
+        "quoteProps": "as-needed",
+        "jsxSingleQuote": false,
+        "singleAttributePerLine": true
+      }
+    },
+    {
+      "files": ["BE/**/*.js"],
+      "options": {
+        "arrowParens": "always",
+        "trailingComma": "all",
+        "tabWidth": 2,
+        "singleQuote": true,
+        "semi": true,
+        "useTabs": false,
+        "printWidth": 80,
+        "bracketSpacing": true,
+        "rangeStart": 0,
+        "quoteProps": "as-needed",
+        "jsxSingleQuote": false,
+        "singleAttributePerLine": true
+      }
+    }
+  ]
+}
