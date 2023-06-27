@@ -23,6 +23,7 @@ module.exports = (phase) => {
   return {
     env: {
       API_URL: process.env.NEXT_PUBLIC_API_URL,
+      KAKAO_SHARE_KEY: process.env.NEXT_PUBLIC_KAKAO_SHARE_KEY,
     },
     images: {
       domains: ['m.media-amazon.com'],
