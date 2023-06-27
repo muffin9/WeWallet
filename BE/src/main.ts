@@ -5,6 +5,8 @@ import { initializeTransactionalContext } from "typeorm-transactional";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   initializeTransactionalContext();
-  await app.listen(3000);
+  app.enableCors();
+  await app.listen(4000);
 }
+
 bootstrap();
