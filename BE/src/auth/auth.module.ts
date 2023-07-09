@@ -1,14 +1,34 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { User } from "../entities/user.entity";
-import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
-import { UserService } from "../user/user.service";
-import { KakaoMiddleWare } from "./kakao.middleware";
+import { Module } from '@nestjs/common';
+import { UserModule } from '@/user/user.module';
+import { MysqlModule } from '../provider/database.module';
+import { AuthController } from './auth.controller';
+import { KakaoStrategy } from './strategies/kakao.strategy';
+import { AuthService } from './auth.service';
+import { JwtTokenService } from './strategies/jwt.strategy';
+import { SessionStore } from './session/session.store';
+import { SessionRepository } from './session/session.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [UserModule, MysqlModule],
   controllers: [AuthController],
-  providers: [KakaoMiddleWare, AuthService, UserService],
+  providers: [
+    // KakaoStrategy,
+    {
+      provide: 'SessionUseCase',
+      useClass: AuthService,
+    },
+    {
+      provide: 'TokenService',
+      useClass: JwtTokenService,
+    },
+    {
+      provide: 'ISessionStore',
+      useClass: SessionStore,
+    },
+    {
+      provide: 'ISessionRepository',
+      useClass: SessionRepository,
+    },
+  ],
 })
 export class AuthModule {}
