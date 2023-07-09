@@ -1,31 +1,19 @@
-import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
-import { UserModule } from "./user/user.module";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { SnakeNamingStrategy } from "typeorm-naming-strategies";
-import { ConfigModule } from "@nestjs/config";
-import { AuthModule } from "./auth/auth.module";
+import { Module } from '@nestjs/common';
+import { UserModule } from '@/user/user.module';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from '@/auth/auth.module';
+import { configModuleOptions } from '@/provider/config.module.options';
+import { healthCheckController } from '@/healthCheck.controller';
+import { MysqlModule } from '@/provider/database.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: "../env/.env.dev" }),
-    TypeOrmModule.forRoot({
-      type: "mysql",
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      entities: [__dirname + "/../**/*.entity.{js.ts}"],
-      namingStrategy: new SnakeNamingStrategy(),
-      logging: true,
-      synchronize: true,
-    }),
-    UserModule,
+    MysqlModule,
     AuthModule,
+    UserModule,
+    ConfigModule.forRoot({ ...configModuleOptions }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [healthCheckController],
+  providers: [],
 })
 export class AppModule {}
