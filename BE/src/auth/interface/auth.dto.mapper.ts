@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { SocialLoginCommand } from '../usecase/login.usecase';
-import { kakaoUserTypeResponse } from '../interface/kakao.user';
+import { SocialLoginCommand } from '../application/command/social.login.command';
+import { kakaoUserTypeResponse } from './kakao.user';
 
 export class AuthDtoMapper {
   public static toSocialLoginCommand(request: Request & kakaoUserTypeResponse) {

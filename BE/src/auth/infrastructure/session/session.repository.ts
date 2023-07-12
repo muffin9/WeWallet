@@ -18,6 +18,7 @@ export class SessionRepository implements ISessionRepository {
       .values({ refreshToken, email })
       .execute();
   }
+
   async getByRefreshToken(refreshToken: any) {
     const sessionEntity = await this.dataSource
       .createQueryBuilder(SessionEntity, 'session')

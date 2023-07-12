@@ -1,17 +1,10 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { UserService } from './user.service';
-import { User } from '@/entities/user.entity';
+import { Controller, Get, Inject, Param } from '@nestjs/common';
+import { UserUseCase } from './application/login.usercase';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
-  @Get('/')
-  findAll(): Promise<User[]> {
-    return this.userService.findAll();
-  }
-
-  @Get(':email')
-  getUserbyEmail(@Param() params) {
-    return this.userService.getUserbyEmail(params.email);
-  }
+  constructor(
+    @Inject('UserUseCase')
+    private readonly userUseCase: UserUseCase,
+  ) {}
 }

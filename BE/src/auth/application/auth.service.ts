@@ -1,11 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import {
-  RestoreAccessTokenComamnd,
-  SessionUseCase,
-  SocialLoginCommand,
-} from './usecase/login.usecase';
+import { SessionUseCase } from './usecase/login.usecase';
 import { TokenService } from '@/token/token.service';
-import { ISessionStore } from './session/session.store.interface';
+import { ISessionStore } from '../infrastructure/session/session.store.interface';
+import { RestoreAccessTokenComamnd } from './command/restore.access.token.command';
+import { SocialLoginCommand } from './command/social.login.command';
 
 @Injectable()
 export class AuthService implements SessionUseCase {
@@ -27,10 +25,12 @@ export class AuthService implements SessionUseCase {
   async socialLogin(command: SocialLoginCommand) {
     const { nickname, email, userId } = command;
     const payload = { nickname, email, userId };
+
     const [accessTokenJwt, refreshTokenJwt] = await Promise.all([
       this.tokenService.createAccessToken(payload),
       this.tokenService.createRefreshToken(payload),
     ]);
+
     await this.sessionStore.create(refreshTokenJwt, email);
     return { accessToken: accessTokenJwt, refreshToken: refreshTokenJwt };
   }

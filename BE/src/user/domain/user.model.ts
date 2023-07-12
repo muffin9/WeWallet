@@ -15,7 +15,7 @@ export type CommonUserSignUpType = Omit<
 >;
 export type SocialUserSignUpType = Pick<
   UserConstructorInput,
-  'email' | 'nickname'
+  'email' | 'nickname' | 'createdAt'
 >;
 
 export class UserModel {
@@ -42,8 +42,8 @@ export class UserModel {
       ...input,
       id: null,
       provider: PROVIDER.COMMON,
-      updatedAt: null,
       createdAt: null,
+      updatedAt: null,
     });
   }
 
@@ -54,7 +54,6 @@ export class UserModel {
       provider: PROVIDER.KAKAO,
       password: null,
       updatedAt: null,
-      createdAt: null,
     });
   }
 

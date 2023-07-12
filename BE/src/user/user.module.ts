@@ -2,19 +2,31 @@ import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { MysqlModule } from '@/provider/database.module';
-import { User } from '@/entities/user.entity';
 import { UserRepository } from './user.repository';
+import { UserReader } from './infrastructure/user.reader';
+import { UseStore } from './infrastructure/user.store';
 
 @Module({
   imports: [MysqlModule],
   controllers: [UserController],
   providers: [
-    UserService,
+    {
+      provide: 'UserUseCase',
+      useClass: UserService,
+    },
     {
       provide: 'IUserRepository',
       useClass: UserRepository,
     },
-    User,
+    {
+      provide: 'IUserReader',
+      useClass: UserReader,
+    },
+    {
+      provide: 'IUserStore',
+      useClass: UseStore,
+    },
   ],
+  exports: ['IUserReader', 'IUserStore'],
 })
 export class UserModule {}

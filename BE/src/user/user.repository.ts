@@ -1,12 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { UserModel } from './domain/user.model';
-import { User } from '@/entities/user.entity';
-
-export interface IUserRepository {
-  getUserByUserEmail(email: string): Promise<UserModel>;
-  findAll: () => Promise<User[]>;
-}
+import { UserEntity } from './infrastructure/user.entity';
+import { IUserRepository } from './infrastructure/user.repository.interface';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -15,19 +11,31 @@ export class UserRepository implements IUserRepository {
     private readonly dataSource: DataSource,
   ) {}
 
-  async findAll() {
-    const users = await this.dataSource
-      .createQueryBuilder(User, 'user')
-      .getMany();
-    return users;
+  async create(user: UserModel) {
+    const { id, ...properties } = user.getProperties();
+
+    const result = await this.dataSource
+      .createQueryBuilder()
+      .insert()
+      .into(UserEntity)
+      .values({ ...properties })
+      .execute();
+    return result.generatedMaps[0].id;
   }
 
   async getUserByUserEmail(email: string) {
     const user = await this.dataSource
-      .createQueryBuilder(User, 'user')
+      .createQueryBuilder(UserEntity, 'user')
       .where('user.email = :email', { email })
       .getOne();
     if (!user) return null;
     return user.toModel();
+  }
+
+  async findAll() {
+    const users = await this.dataSource
+      .createQueryBuilder(UserEntity, 'user')
+      .getMany();
+    return users;
   }
 }

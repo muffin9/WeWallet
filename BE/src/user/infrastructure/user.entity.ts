@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Exclude } from 'class-transformer';
 import { IsOptional, IsString } from 'class-validator';
 import { UserModel } from '@/user/domain/user.model';
 import { PROVIDER } from '@/user/domain/vo/provider';
@@ -10,8 +9,8 @@ export enum Provider {
   Kakao,
 }
 
-@Entity()
-export class User {
+@Entity({ name: 'user' })
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -26,26 +25,26 @@ export class User {
   @IsString()
   password: string;
 
-  @Column()
+  @Column({
+    default: false,
+  })
   @IsOptional()
   is_admin: boolean;
 
-  @Column()
+  @Column({
+    default: false,
+  })
   @IsOptional()
   is_active: boolean;
 
-  @Column({ type: 'enum', enum: Provider, default: Provider.Local })
-  provider: Provider;
+  @Column()
+  provider: string;
 
   @Column({ type: Date })
   createdAt: Date;
 
   @Column({ type: Date, nullable: true })
   updatedAt: Date;
-
-  @Column({ nullable: true })
-  @Exclude()
-  currentHashedRefreshToken?: string;
 
   public toModel() {
     return new UserModel({
