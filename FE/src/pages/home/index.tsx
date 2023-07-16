@@ -1,3 +1,5 @@
+import AvatarDemo from '@/components/atoms/Avatar';
+
 const home = () => {
   const kakaoInit = () => {
     const kakao = (window as any).Kakao;
@@ -11,13 +13,19 @@ const home = () => {
   const kakaoLogin = () => {
     const kakao = kakaoInit();
     kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3000/auth/kakao',
+      redirectUri: `${process.env.API_URL}/auth/kakao/callback`,
     });
   };
 
   return (
     <div>
-      <button onClick={kakaoLogin}>카톡으로 로그인</button>
+      <AvatarDemo />
+      <button
+        type="button"
+        onClick={kakaoLogin}
+      >
+        카톡으로 로그인
+      </button>
     </div>
   );
 };
