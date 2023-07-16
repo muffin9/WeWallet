@@ -1,14 +1,17 @@
-import { Controller, Get } from "@nestjs/common";
-import { User } from "../entities/user.entity";
-import { UserService } from "./user.service";
+import { Controller, Get, Param } from '@nestjs/common';
+import { UserService } from './user.service';
+import { User } from '@/entities/user.entity';
 
-@Controller("user")
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-  @Get()
+  @Get('/')
   findAll(): Promise<User[]> {
-    const users = this.userService.findAll();
-    console.log(users);
-    return users;
+    return this.userService.findAll();
+  }
+
+  @Get(':email')
+  getUserbyEmail(@Param() params) {
+    return this.userService.getUserbyEmail(params.email);
   }
 }

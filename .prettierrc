@@ -18,7 +18,7 @@
       }
     },
     {
-      "files": ["BE/**/*.js"],
+      "files": ["BE/**/*.{js,jsx,ts,tsx}"],
       "options": {
         "arrowParens": "always",
         "trailingComma": "all",
