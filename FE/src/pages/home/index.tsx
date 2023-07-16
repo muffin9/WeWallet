@@ -1,4 +1,5 @@
-import AvatarDemo from '@/components/atoms/Avatar';
+import Avatar from '@/components/atoms/Avatar';
+import { SampleImageUrl } from '@/constants/util';
 
 const home = () => {
   const kakaoInit = () => {
@@ -19,7 +20,7 @@ const home = () => {
 
   return (
     <div>
-      <AvatarDemo />
+      <Avatar imageUrl={SampleImageUrl} />
       <button
         type="button"
         onClick={kakaoLogin}
