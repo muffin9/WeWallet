@@ -83,7 +83,6 @@
       }
     ],
     "import/extensions": [
-      "error",
       "always",
       {
         "ignorePackages": true,
@@ -98,6 +97,6 @@
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
     "import/no-unresolved": "off",
-    "jsx-a11y/role-has-required-aria-props": "off",
+    "jsx-a11y/role-has-required-aria-props": "off"
   }
 }
