@@ -25,7 +25,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryProvider>
-      <Component {...pageProps} />
+      <main className="h-screen min-h-[50rem] flex flex-col items-center">
+        <Component {...pageProps} />
+      </main>
     </QueryProvider>
   );
 }
