@@ -1,5 +1,16 @@
 @import "./reset.css";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+@import url("https://webfontworld.github.io/gangwon/GangwonEduPower.css");
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .main-title {
+    color: theme("colors.light-black");
+    font-family: theme("fontFamily.GangwonEduPower");
+    @apply text-3xl;
+  }
+}
