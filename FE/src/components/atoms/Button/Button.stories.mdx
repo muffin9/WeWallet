@@ -1,0 +1,122 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/blocks";
+import Button from "./";
+
+<Meta title="Primitive/Button" component={Button} />
+
+# Button
+
+프로젝트 내에서 사용되어지는 모든 버튼들을 표현합니다.
+
+## Props
+
+```ts
+type VariantType = {
+  /**
+   * 색상과 관련된 버튼의 type.
+   */
+  default: string;
+  kakao: string;
+};
+
+type SizeType = {
+  /**
+   * 버튼의 크기 (height, padding 포함)
+   */
+  small: string;
+  medium: string;
+  large: string;
+};
+
+type ButtonProps = {
+  /**
+   * 버튼의 타입으로 default, kakao가 있으며 옵셔널.
+   */
+  variant?: keyof VariantType;
+  /**
+   * 버튼의 크기로 small, medium, large가 존재
+   */
+  text: string;
+  /**
+   * onClick event listener
+   */
+  onClick?: () => void;
+
+  /**
+   * 버튼의 넓이
+   */
+  width?: string;
+
+  /**
+   *
+   */
+  size?: keyof SizeType;
+};
+```
+
+### 카카오 버튼 (large size)
+
+- 카카오 로그인 버튼을 포함하여 회원가입, 로그인, 시작하기 버튼에 사용되어집니다.
+
+<Canvas soutceState="shown">
+  <Story name="KakaoButton" args={{}}>
+    {(args) => {
+      return (
+        <div>
+          <Button
+            variant="kakao"
+            size="large"
+            onClick={() => alert("카카오 로그인!")}
+            text="Kakao Login"
+            width="w-80"
+          />
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable of={Button} />
+
+### Success 버튼 (large size)
+
+- 주로 팝업내 하단에 사용되어지는 버튼입니다.
+
+<Canvas soutceState="shown">
+  <Story name="SuccessButton" args={{}}>
+    {(args) => {
+      return (
+        <div>
+          <Button
+            variant="success"
+            size="large"
+            onClick={() => alert("Success!")}
+            text="Go WeWallet"
+            width="w-64"
+          />
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+### Default 버튼 (small)
+
+- 가장 많이 사용되어지는 버튼
+
+<Canvas soutceState="shown">
+  <Story name="DefaultButton" args={{}}>
+    {(args) => {
+      return (
+        <div>
+          <Button
+            variant="default"
+            size="small"
+            onClick={() => alert("Default Button..")}
+            text="예산"
+            width="w-14"
+          />
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
