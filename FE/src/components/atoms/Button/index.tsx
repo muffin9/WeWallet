@@ -7,13 +7,13 @@ type VariantType = {
 
 type SizeType = 'small' | 'medium' | 'large';
 
-type ButtonProps = {
+interface ButtonProps {
   variant?: keyof VariantType;
   text: string;
   onClick?: () => void;
   width?: string;
   size: SizeType;
-};
+}
 
 // small:32, medium:48, large:56
 const calculatedSizeClasses = (size: 'small' | 'medium' | 'large') => {
