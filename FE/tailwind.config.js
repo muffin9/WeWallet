@@ -14,6 +14,7 @@ module.exports = {
         success: '#2E4FFF',
         midnight: '#121063',
         silver: '#b6c4d9',
+        error: '#FF5F5F',
       },
       fontFamily: {
         pretendard: ['Pretendard'],
