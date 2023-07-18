@@ -1,0 +1,43 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/blocks";
+import LoadingSpinner from "./";
+
+<Meta title="Primitive/LoadingSpinner" component={LoadingSpinner} />
+
+# LoadingSpinner
+
+프로젝트 내에서 사용되어지는 로딩스피너를 표현합니다.
+
+## Props
+
+```ts
+/**
+ * 로딩스피너의 크기를 결정하며 small, medium, large, xLarge 중 하나를 선택할 수 있습니다.
+ */
+ */
+type SizeType = "small" | "medium" | "large" | "xLarge";
+
+interface LoadingSpinnerProps {
+  /**
+   * 로딩스피너의 크기를 결정합니다.
+   */
+  size: SizeType;
+}
+```
+
+### Small LoadingSpinner
+
+- Small 크기의 로딩스피너입니다.
+
+<Canvas soutceState="shown">
+  <Story name="small LoadingSpinner" args={{}}>
+    {(args) => {
+      return (
+        <div>
+          <LoadingSpinner size="small" />
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable of={LoadingSpinner} />
