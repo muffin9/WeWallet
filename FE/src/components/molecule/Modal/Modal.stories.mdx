@@ -1,0 +1,37 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/blocks";
+import Modal from "./";
+
+<Meta title="Primitive/Modal" component={Modal} />
+
+# Modal
+
+프로젝트 내에서 사용되어지는 모든 모달을 표현합니다.
+
+## Props
+
+```ts
+/**
+ * 모달의 크기를 결정합니다.
+ */
+type SizeType = "small" | "medium" | "large";
+
+interface ModalProps {
+  /**
+   * 모달의 제목
+   */
+  title: string;
+  /**
+   * 모달의 세부설명
+   */
+  description?: string;
+
+  /**
+   * 모달의 크기
+   */
+  size?: SizeType;
+  /**
+   * 모달 하단 추가 적인 컴포넌트
+   */
+  children?: React.ReactNode;
+}
+```
