@@ -27,7 +27,7 @@ type SizeType = {
   large: string;
 };
 
-type ButtonProps = {
+interface ButtonProps {
   /**
    * 버튼의 타입으로 default, kakao가 있으며 옵셔널.
    */
@@ -50,7 +50,7 @@ type ButtonProps = {
    *
    */
   size?: keyof SizeType;
-};
+}
 ```
 
 ### 카카오 버튼 (large size)
