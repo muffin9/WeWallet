@@ -14,8 +14,8 @@ interface InputProps {
 
 const calculatedType: VariantType = {
   default: 'border-b-silver',
-  error: 'border-b-error',
-  success: 'border-b-success',
+  error: 'border-b-error text-error',
+  success: 'border-b-success text-success',
 };
 
 const Input = ({
