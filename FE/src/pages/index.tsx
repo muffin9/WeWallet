@@ -1,6 +1,7 @@
 import Button from '@/components/atoms/Button';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import LogoComponent from '@/assets/images/logo.png';
 
 export default function Home() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function Home() {
       <section className="h-full py-14 flex flex-col justify-center">
         <div className="flex justify-center mb-20">
           <Image
-            src={'/images/logo.png'}
+            src={LogoComponent}
             width={70}
             height={80}
             alt="Wewallet Logo"
