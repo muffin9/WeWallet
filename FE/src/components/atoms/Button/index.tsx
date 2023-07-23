@@ -15,6 +15,7 @@ interface ButtonProps {
   size: SizeType;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
+  disabled?: boolean;
 }
 
 // small:32, medium:48, large:56
@@ -48,6 +49,7 @@ const Button = ({
   size = 'medium',
   type = 'button',
   className,
+  disabled = false,
   ...restProps
 }: ButtonProps) => {
   const widthStyle = width || 'auto';
@@ -59,6 +61,7 @@ const Button = ({
       type={type}
       className={`${sizeClass} ${colorClasses} ${widthStyle} ${className}`}
       onClick={onClick}
+      disabled={disabled}
       {...restProps}
     >
       {text}

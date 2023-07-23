@@ -29,11 +29,7 @@ export const SVGIcon = ({
       xmlns="http://www.w3.org/2000/svg"
       className={`${colorClasses} fill-current`}
     >
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d={d}
-      />
+      <path d={d} />
     </svg>
   );
 };
