@@ -1,26 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 import { checkDupliateEmail } from '@/apis/auth';
-import { useState } from 'react';
+import useModalStore from '@/store/useModalStore';
 
 const useCheckDuplicateEmail = (email: string) => {
-  const [isDuplicateEmailModal, setIsDuplicateEmailModal] = useState(false);
-  const { isLoading: checkEmailLoading, refetch: checkEmailRefetch } = useQuery(
+  const setType = useModalStore((state) => state.setType);
+
+  const { refetch: checkEmailRefetch } = useQuery(
     ['checkDuplicateEmail'],
     () => checkDupliateEmail(email),
     {
       enabled: false,
       onSuccess: (data) => {
-        // loading -> Popup inner loading ?
-        if (data) return true;
-        setIsDuplicateEmailModal(true);
+        data ? setType('isDuplicateEmail') : setType('isNotDuplicateEmail');
       },
     },
   );
 
   return {
-    isDuplicateEmailModal,
-    setIsDuplicateEmailModal,
-    checkEmailLoading,
     checkEmailRefetch,
   };
 };
