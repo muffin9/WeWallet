@@ -9,6 +9,7 @@ export default function Document() {
         defer
       ></script>
       <body>
+        <div id="modal-root" />
         <Main />
         <NextScript />
       </body>

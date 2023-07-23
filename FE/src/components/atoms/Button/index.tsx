@@ -13,6 +13,8 @@ interface ButtonProps {
   onClick?: () => void;
   width?: string;
   size: SizeType;
+  type?: 'button' | 'submit' | 'reset';
+  className?: string;
 }
 
 // small:32, medium:48, large:56
@@ -44,6 +46,8 @@ const Button = ({
   onClick,
   width,
   size = 'medium',
+  type = 'button',
+  className,
   ...restProps
 }: ButtonProps) => {
   const widthStyle = width || 'auto';
@@ -52,7 +56,8 @@ const Button = ({
 
   return (
     <button
-      className={`${sizeClass} ${colorClasses} ${widthStyle}`}
+      type={type}
+      className={`${sizeClass} ${colorClasses} ${widthStyle} ${className}`}
       onClick={onClick}
       {...restProps}
     >
