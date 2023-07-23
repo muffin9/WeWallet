@@ -7,6 +7,7 @@ interface ModalProps {
   description?: string;
   size?: SizeType;
   children?: React.ReactNode;
+  handleClose: () => void;
 }
 
 const calculatedSizeClasses = (size: 'small' | 'medium' | 'large') => {
@@ -28,12 +29,16 @@ const Modal = ({
   description,
   size = 'medium',
   children,
+  handleClose,
   ...restProps
 }: ModalProps) => {
   const sizeClass = calculatedSizeClasses(size);
   return ReactDom.createPortal(
     <>
-      <div className="fixed top-0 right-0 bottom-0 left-0 z-[999] bg-black opacity-60" />
+      <div
+        className="fixed top-0 right-0 bottom-0 left-0 z-[999] bg-black opacity-60"
+        onClick={handleClose}
+      />
       <section
         className={`${sizeClass} flex flex-col items-center gap-y-2 fixed top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] rounded-lg z-[999] bg-white font-pretendard`}
         {...restProps}

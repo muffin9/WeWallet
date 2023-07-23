@@ -15,6 +15,7 @@ const PrimitiveInput = () => {
   return (
     <Input
       type="text"
+      name="email"
       variant="default"
       placeholder="이메일을 입력해주세요."
       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -35,6 +36,7 @@ export const SuccessInput = {
     return (
       <Input
         type="text"
+        name="email"
         variant="success"
         placeholder="이메일을 입력해주세요."
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

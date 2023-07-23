@@ -15,6 +15,7 @@ const PrimitiveButton = () => {
       text="카카오 로그인"
       size="large"
       width="w-80"
+      type="button"
     />
   );
 };

@@ -47,9 +47,19 @@ interface ButtonProps {
   width?: string;
 
   /**
-   *
+   * 버튼의 크기
    */
   size?: keyof SizeType;
+
+  /**
+   * 버튼의 타입
+   */
+  type?: "button" | "submit" | "reset";
+
+  /**
+   * 버튼의 스타일 custom하려면 className을 사용
+   */
+  className?: string;
 }
 ```
 
@@ -68,6 +78,7 @@ interface ButtonProps {
             onClick={() => alert("카카오 로그인!")}
             text="Kakao Login"
             width="w-80"
+            type="button"
           />
         </div>
       );
@@ -92,6 +103,7 @@ interface ButtonProps {
             onClick={() => alert("Success!")}
             text="Go WeWallet"
             width="w-64"
+            type="button"
           />
         </div>
       );
@@ -114,6 +126,7 @@ interface ButtonProps {
             onClick={() => alert("Default Button..")}
             text="예산"
             width="w-14"
+            type="button"
           />
         </div>
       );
