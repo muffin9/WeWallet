@@ -1,10 +1,9 @@
 import { SVGIcon } from '@/components/atoms/Icon';
 import { closeImagePath } from '@/constants/url';
-
-type VariantType = 'default' | 'error' | 'success';
+import { VariantInputType } from '@/types/auth';
 
 interface AccessInputProps {
-  variant?: VariantType;
+  variant?: VariantInputType;
   InputComponent: React.ReactNode;
   onResetValue: () => void;
 }
