@@ -1,19 +1,15 @@
-type VariantType = {
-  default: string;
-  error: string;
-  success: string;
-};
+import { VariantInputType } from '@/types/auth';
 
 interface InputProps {
   type: string;
   name: string;
-  variant?: keyof VariantType;
+  variant?: VariantInputType;
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
 }
 
-const calculatedType: VariantType = {
+const calculatedType = {
   default: 'border-b-silver',
   error: 'border-b-error text-error',
   success: 'border-b-success text-success',

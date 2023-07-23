@@ -1,0 +1,84 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/blocks";
+import Label from "@/components/atoms/Label";
+import AccessLabel from "./";
+import { SVGIcon } from "@/components/atoms/Icon";
+import { useState } from "react";
+import { closeImagePath } from "@/constants/url";
+
+<Meta title="Primitive/AccessLabel" component={AccessLabel} />
+
+# AccessLabel
+
+프로젝트 내에서 로그인과 회원가입에서 valid를 체킹하여 조합한 인풋 컴포넌트 입니다.
+
+## Props
+
+```ts
+/**
+ * Label의 valid type
+ */
+type VariantLabelType = "default" | "error" | "success";
+
+interface AccessLabelProps {
+  /**
+   * Label의 valid type으로 default, error, success가 있습니다.
+   */
+  variant?: VariantLabelType;
+  /**
+   * Label Component를 받습니다.
+   */
+  LabelComponent: React.ReactNode;
+}
+```
+
+### Default AccessLabel
+
+<Canvas soutceState="shown">
+  <Story name="Default AccessLabel" args={{}}>
+    {(args) => {
+      const [email, setEmail] = useState("");
+      return (
+        <AccessLabel
+          variant="default"
+          LabelComponent={<Label id={email} name="email" />}
+        />
+      );
+    }}
+  </Story>
+</Canvas>
+
+<ArgsTable of={AccessLabel} />
+
+### Error AccessLabel
+
+<Canvas soutceState="shown">
+  <Story name="Error AccessLabel" args={{}}>
+    {(args) => {
+      const [email, setEmail] = useState('');
+      return (
+         <AccessLabel
+          variant="error"
+          LabelComponent={<Label id={email} name="email" />}
+        />
+      );
+    }}
+
+  </Story>
+</Canvas>
+
+### Success AccessLabel
+
+<Canvas soutceState="shown">
+  <Story name="Success AccessLabel" args={{}}>
+    {(args) => {
+      const [email, setEmail] = useState('');
+      return (
+        <AccessLabel
+          variant="success"
+          LabelComponent={<Label id={email} name="email"  />}
+        />
+      );
+    }}
+
+  </Story>
+</Canvas>
