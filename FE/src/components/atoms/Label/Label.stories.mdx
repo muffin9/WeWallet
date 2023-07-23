@@ -1,0 +1,43 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/blocks";
+import Label from "./";
+
+<Meta title="Primitive/Label" component={Label} />
+
+# Label
+
+프로젝트 내에서 사용되어지는 라벨을 표현합니다.
+
+## Props
+
+```ts
+interface LabelProps {
+  /**
+   * Input과 연결되어지는 id 값입니다.
+   */
+  id: string;
+  /**
+   * Label의 텍스트 값입니다.
+   */
+  name: string;
+  /**
+   * Label의 색상 값입니다.
+   */
+  color?: string;
+}
+```
+
+### Email Label
+
+- 이메일 라벨 예제입니다.
+
+<Canvas>
+  <Story name="email" args={{}}>
+    {(args) => {
+      return (
+        <div>
+          <Label id="email" name="이메일" color="text-yellow" />
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>

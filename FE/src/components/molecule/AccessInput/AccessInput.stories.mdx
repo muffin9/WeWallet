@@ -1,0 +1,114 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/blocks";
+import Input from "@/components/atoms/Input";
+import AccessInput from "./";
+import { SVGIcon } from "@/components/atoms/Icon";
+import { useState } from "react";
+import { closeImagePath } from "@/constants/url";
+
+<Meta title="Primitive/AccessInput" component={AccessInput} />
+
+# AccessInput
+
+프로젝트 내에서 로그인과 회원가입에서 valid를 체킹하여 조합한 인풋 컴포넌트 입니다.
+
+## Props
+
+```ts
+/**
+ * input의 valid type
+ */
+type VariantInputType = "default" | "error" | "success";
+
+interface AccessInputProps {
+  /**
+   * input의 valid type으로 default, error, success가 있습니다.
+   */
+  variant?: VariantInputType;
+  /**
+   * Input Component를 받습니다.
+   */
+  InputComponent: React.ReactNode;
+  /**
+   * clear image에 클릭리스너에 바인딩될 함수입니다.
+   */
+  onResetValue: () => void;
+}
+```
+
+### Default AccessInput
+
+<Canvas soutceState="shown">
+  <Story name="Default AccessInput" args={{}}>
+    {(args) => {
+      const [email, setEmail] = useState('');
+      return (
+        <AccessInput
+          variant="default"
+          InputComponent={
+            <Input
+              type="text"
+              name="email"
+              variant="default"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+          }
+          onResetValue={() => console.log("reset value.")}
+        />
+      );
+    }}
+
+  </Story>
+</Canvas>
+
+<ArgsTable of={AccessInput} />
+
+### Error AccessInput
+
+<Canvas soutceState="shown">
+  <Story name="Error AccessInput" args={{}}>
+    {(args) => {
+      const [email, setEmail] = useState('');
+      return (
+        <AccessInput
+          variant="error"
+          InputComponent={
+            <Input
+              type="text"
+              variant="error"
+              onChange={(e) => setEmail(e.target.value)}
+              value={'InvalidEmail#12345677'}
+            />
+          }
+          onResetValue={() => setEmail('')}
+        />
+      );
+    }}
+
+  </Story>
+</Canvas>
+
+### Success AccessInput
+
+<Canvas soutceState="shown">
+  <Story name="Success AccessInput" args={{}}>
+    {(args) => {
+      const [email, setEmail] = useState('');
+      return (
+        <AccessInput
+          variant="success"
+          InputComponent={
+            <Input
+              type="text"
+              variant="success"
+              onChange={(e) => setEmail(e.target.value)}
+              value={'jinha6707@gmail.com'}
+            />
+          }
+          onResetValue={() => setEmail('')}
+        />
+      );
+    }}
+
+  </Story>
+</Canvas>
