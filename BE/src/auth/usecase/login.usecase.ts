@@ -20,9 +20,25 @@ export class SocialLoginCommand {
   }
 }
 
+export class LocalLoginCommand {
+  readonly email: string;
+  readonly nickname: string;
+  readonly name: string;
+
+  constructor(input: { email: string; nickname: string; name: string }) {
+    this.email = input.email;
+    this.nickname = input.nickname;
+    this.name = input.name;
+  }
+}
+
 export interface SessionUseCase {
   socialLogin(
     command: SocialLoginCommand,
+  ): Promise<{ accessToken: string; refreshToken: string }>;
+
+  localLogin(
+    command: LocalLoginCommand,
   ): Promise<{ accessToken: string; refreshToken: string }>;
 
   logout(email: string): Promise<void>;
