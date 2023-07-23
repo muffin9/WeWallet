@@ -1,12 +1,13 @@
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
-import Label from '@/components/atoms/Label';
+import AccessLabel from '@/components/molecule/AccessLabel';
 import AccessInput from '@/components/molecule/AccessInput';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import useCheckDuplicateEmail from '@/hooks/Signup/useCheckDuplicateEmail';
 import Modal from '@/components/molecule/Modal';
+import Label from '@/components/atoms/Label';
 
 type FormData = {
   email: string;
@@ -86,10 +87,14 @@ const Signup = () => {
     <section className="h-full flex flex-col justify-center">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-y-4 justify-center m-5">
-          <Label
-            id="email"
-            name="이메일"
-            color="text-gray"
+          <AccessLabel
+            variant={errors.email ? 'error' : 'default'}
+            LabelComponent={
+              <Label
+                id="email"
+                name="이메일"
+              />
+            }
           />
           <Controller
             control={control}
@@ -120,10 +125,14 @@ const Signup = () => {
           />
         </div>
         <div className="flex flex-col gap-y-4 justify-center m-5">
-          <Label
-            id="nickname"
-            name="별명"
-            color="text-gray"
+          <AccessLabel
+            variant={errors.nickname ? 'error' : 'default'}
+            LabelComponent={
+              <Label
+                id="nickname"
+                name="별명"
+              />
+            }
           />
           <Controller
             control={control}
@@ -145,10 +154,14 @@ const Signup = () => {
           />
         </div>
         <div className="flex flex-col gap-y-4 justify-center m-5">
-          <Label
-            id="name"
-            name="이름"
-            color="text-gray"
+          <AccessLabel
+            variant={errors.name ? 'error' : 'default'}
+            LabelComponent={
+              <Label
+                id="name"
+                name="이름"
+              />
+            }
           />
           <Controller
             control={control}
@@ -170,10 +183,14 @@ const Signup = () => {
           />
         </div>
         <div className="flex flex-col gap-y-4 justify-center m-5">
-          <Label
-            id="pw"
-            name="패스워드"
-            color="text-gray"
+          <AccessLabel
+            variant={errors.pw ? 'error' : 'default'}
+            LabelComponent={
+              <Label
+                id="pw"
+                name="패스워드"
+              />
+            }
           />
           <Controller
             control={control}
@@ -195,10 +212,14 @@ const Signup = () => {
           />
         </div>
         <div className="flex flex-col gap-y-4 justify-center m-5">
-          <Label
-            id="checkPw"
-            name="패스워드"
-            color="text-gray"
+          <AccessLabel
+            variant={errors.checkPw ? 'error' : 'default'}
+            LabelComponent={
+              <Label
+                id="checkPw"
+                name="패스워드 확인"
+              />
+            }
           />
           <Controller
             control={control}
