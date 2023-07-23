@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Exclude } from 'class-transformer';
 import { IsOptional, IsString } from 'class-validator';
 import { UserModel } from '@/user/domain/user.model';
 import { PROVIDER } from '@/user/domain/vo/provider';
@@ -26,11 +25,11 @@ export class User {
   @IsString()
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   @IsOptional()
   is_admin: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   @IsOptional()
   is_active: boolean;
 
@@ -42,10 +41,6 @@ export class User {
 
   @Column({ type: Date, nullable: true })
   updatedAt: Date;
-
-  @Column({ nullable: true })
-  @Exclude()
-  currentHashedRefreshToken?: string;
 
   public toModel() {
     return new UserModel({
