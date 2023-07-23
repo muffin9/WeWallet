@@ -2,6 +2,7 @@ import ReactDom from 'react-dom';
 import useModalStore, { ModalType } from '@/store/useModalStore';
 import { ModalOkButton, ModalDescription, ModalTitle } from '@/constants/modal';
 import Button from '@/components/atoms/Button';
+import LoadingSpinner from '@/components/atoms/LoadingSpinner';
 
 type SizeType = 'small' | 'medium' | 'large';
 
@@ -41,16 +42,23 @@ const Modal = ({ size = 'medium', ...restProps }: ModalProps) => {
           className={`${sizeClass} flex flex-col items-center gap-y-2 fixed top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] rounded-lg z-[999] bg-white font-pretendard`}
           {...restProps}
         >
-          <h1 className="text-xl text-light-black font-bold">
-            {ModalTitle[type]}
-          </h1>
-          <p className="text-xs text-gray">{ModalDescription[type]}</p>
-          <Button
-            variant="success"
-            size="small"
-            text={ModalOkButton[type]}
-            className="text-xs mt-auto"
-          />
+          {type === 'loading' ? (
+            <LoadingSpinner size="medium" />
+          ) : (
+            <>
+              <h1 className="text-xl text-light-black font-bold">
+                {ModalTitle[type]}
+              </h1>
+              <p className="text-xs text-gray">{ModalDescription[type]}</p>
+              <Button
+                variant="success"
+                size="small"
+                text={ModalOkButton[type]}
+                className="text-xs mt-auto"
+                onClick={toggleModal}
+              />
+            </>
+          )}
         </section>
       </>
     ),

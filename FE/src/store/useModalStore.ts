@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 export type ModalType =
   | 'default'
+  | 'loading'
   | 'isDuplicateEmail'
   | 'isNotDuplicateEmail'
   | 'signup'
@@ -26,6 +27,7 @@ const useModalStore = create<ModalState>((set) => ({
     set((state) => ({
       ...state,
       type,
+      isShowModal: !state.isShowModal,
     })),
 }));
 
