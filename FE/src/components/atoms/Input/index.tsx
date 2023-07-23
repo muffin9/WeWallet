@@ -6,6 +6,7 @@ type VariantType = {
 
 interface InputProps {
   type: string;
+  name: string;
   variant?: keyof VariantType;
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -20,6 +21,7 @@ const calculatedType: VariantType = {
 
 const Input = ({
   type = 'text',
+  name,
   variant = 'default',
   placeholder,
   onChange,
@@ -29,6 +31,7 @@ const Input = ({
   return (
     <input
       type={type}
+      name={name}
       className={`${colorClasses} w-72 h-8 border-x-0 border-b border-solid bg-transparent font-pretendard text-xl`}
       placeholder={placeholder}
       onChange={onChange}

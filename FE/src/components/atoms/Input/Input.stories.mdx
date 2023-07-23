@@ -25,6 +25,10 @@ interface InputProps {
    */
   type: string;
   /**
+   * 인풋의 이름을 지정합니다.
+   */
+  name: string;
+  /**
    * 인풋의 타입으로 default, error, success가 있습니다.
    */
   variant?: keyof VariantType;
@@ -53,7 +57,12 @@ interface InputProps {
     {(args) => {
       return (
         <div>
-          <Input type="text" variant="success" value={"jinha6707@gmail.com"} />
+          <Input
+            type="text"
+            name="email"
+            variant="success"
+            value={"jinha6707@gmail.com"}
+          />
         </div>
       );
     }}
