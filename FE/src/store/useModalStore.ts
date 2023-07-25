@@ -2,12 +2,14 @@ import { create } from 'zustand';
 
 export type ModalType =
   | 'default'
-  | 'checkEmail'
-  | 'loading'
+  | 'checkDuplicateEmail'
   | 'isDuplicateEmail'
   | 'isNotDuplicateEmail'
   | 'signup'
-  | 'login';
+  | 'login'
+  | 'checkEmail'
+  | 'checkPassword'
+  | 'loading';
 
 interface ModalState {
   type: ModalType;
