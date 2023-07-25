@@ -4,6 +4,7 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
 import { ConfigType } from '@nestjs/config';
 import databaseConfig from '@/config/database.config';
 import { User } from '@/entities/user.entity';
+import { SessionEntity } from '@/auth/session/session.entity';
 
 export const mysqlProvider = {
   inject: [databaseConfig.KEY],
@@ -16,7 +17,7 @@ export const mysqlProvider = {
       username: config.database.username,
       password: config.database.password,
       database: config.database.db,
-      entities: [User],
+      entities: [User, SessionEntity],
       namingStrategy: new SnakeNamingStrategy(),
       logging: true,
       synchronize: config.database.synchronize,

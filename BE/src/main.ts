@@ -6,8 +6,10 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function main() {
   const app = await NestFactory.create(AppModule);
-
-  app.enableCors({ origin: ['http://localhost:3000'], credentials: true });
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true })); // 모든 라우터에 대해 유효성 검사가 적용되며, 검증된 데이터만 컨트롤러로 전달되도록 설정
 
