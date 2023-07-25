@@ -5,3 +5,8 @@ export type SignupFormData = {
   name: string;
   password: string;
 };
+
+export type LoginFormData = {
+  email: string;
+  password: string;
+};

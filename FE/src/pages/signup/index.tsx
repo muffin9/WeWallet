@@ -70,7 +70,7 @@ const Signup = () => {
 
   const onSubmit = () => {
     if (isCheckEmail === undefined) {
-      setType('checkEmail');
+      setType('checkDuplicateEmail');
       toggleModal();
       return;
     }
