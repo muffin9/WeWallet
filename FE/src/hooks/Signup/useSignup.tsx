@@ -16,7 +16,7 @@ const useSignup = () => {
         setType('signup');
         toggleModal();
         setTimeout(() => {
-          router.push('/');
+          router.push('/login');
           toggleModal();
         }, 2000);
       }
