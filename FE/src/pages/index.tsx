@@ -20,6 +20,7 @@ export default function Home() {
       redirectUri: `${process.env.API_URL}/auth/kakao/callback`,
     });
   };
+
   return (
     <>
       <section className="h-full py-14 flex flex-col justify-center">
@@ -47,6 +48,7 @@ export default function Home() {
           <Button
             variant="primary"
             size="large"
+            onClick={() => router.push('/signup')}
             text="회원가입"
             width="w-80"
           />

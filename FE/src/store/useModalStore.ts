@@ -27,7 +27,6 @@ const useModalStore = create<ModalState>((set) => ({
     set((state) => ({
       ...state,
       type,
-      isShowModal: !state.isShowModal,
     })),
 }));
 
