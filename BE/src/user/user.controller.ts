@@ -34,9 +34,9 @@ export class UserController {
 
   @Post('/')
   async createUser(@Body() user: signupUserTypeRequest, @Res() res: Response) {
-    const response = await this.userService.createUser(user);
+    const status = await this.userService.createUser(user);
 
-    if (response === USER_STATUS.USER_CREATED) {
+    if (status === USER_STATUS.USER_CREATED) {
       const loginInfo = await this.sessionUsecase.localLogin(
         AuthDtoMapper.toLocalLoginCommand({
           email: user.email,
@@ -45,18 +45,21 @@ export class UserController {
         }),
       );
 
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.setHeader('Access-Control-Allow-Credentials', 'true');
       res.cookie('refresh-token', loginInfo.refreshToken, {
         path: '/',
-        maxAge: 60 * 60 * 10,
+        maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
+
       res.cookie('access-token', loginInfo.accessToken, {
         path: '/',
-        maxAge: 60 * 60 * 10,
+        maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
+
+      res.send(status);
+    } else {
+      res.status(400).json({ message: 'User creation failed.' });
     }
   }
 }
