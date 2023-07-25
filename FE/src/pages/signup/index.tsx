@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import useCheckDuplicateEmail from '@/hooks/Signup/useCheckDuplicateEmail';
 import Label from '@/components/atoms/Label';
 import useSignup from '@/hooks/Signup/useSignup';
+import useModalStore from '@/store/useModalStore';
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -56,14 +57,30 @@ const Signup = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const { checkEmailRefetch } = useCheckDuplicateEmail(watch('email'));
+  const { isCheckEmail, checkEmailRefetch } = useCheckDuplicateEmail(
+    watch('email'),
+  );
   const { fetchSignupUser } = useSignup();
+  const setType = useModalStore((state) => state.setType);
+  const toggleModal = useModalStore((state) => state.toggleModal);
 
   const handleDuplicateEmail = () => {
     if (watch('email')) checkEmailRefetch();
   };
 
   const onSubmit = () => {
+    if (isCheckEmail === undefined) {
+      setType('checkEmail');
+      toggleModal();
+      return;
+    }
+
+    if (isCheckEmail.id) {
+      setType('isDuplicateEmail');
+      toggleModal();
+      return;
+    }
+
     const newUser = {
       email: watch('email'),
       nickname: watch('nickname'),
@@ -107,12 +124,15 @@ const Signup = () => {
               )}
             />
             <Button
-              variant="default"
+              variant={
+                errors.email || watch('email') === '' ? 'default' : 'success'
+              }
               text="중복 확인"
               size="small"
               width="w-20"
               type="button"
               className="text-xs text-white"
+              disabled={errors.email || watch('email') === '' ? true : false}
               onClick={handleDuplicateEmail}
             />
           </div>

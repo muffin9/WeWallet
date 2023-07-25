@@ -1,5 +1,6 @@
 export const ModalTitle = {
   default: '',
+  checkEmail: '이메일 중복 확인',
   isDuplicateEmail: '사용 불가',
   isNotDuplicateEmail: '사용 가능',
   signup: '회원 가입',
@@ -9,6 +10,7 @@ export const ModalTitle = {
 
 export const ModalDescription = {
   default: '',
+  checkEmail: '이메일 중복 확인을 해주세요.',
   isDuplicateEmail: '해당 이메일이 중복 됩니다.',
   isNotDuplicateEmail: '사용 가능한 이메일 입니다.',
   signup: '회원가입이 완료되었습니다. 자동으로 이동 됩니다.',
@@ -18,6 +20,7 @@ export const ModalDescription = {
 
 export const ModalOkButton = {
   default: '',
+  checkEmail: '확인',
   isDuplicateEmail: '확인',
   isNotDuplicateEmail: '확인',
   signup: '로그인 하러가기',

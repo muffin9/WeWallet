@@ -6,7 +6,7 @@ const useCheckDuplicateEmail = (email: string) => {
   const setType = useModalStore((state) => state.setType);
   const toggleModal = useModalStore((state) => state.toggleModal);
 
-  const { refetch: checkEmailRefetch } = useQuery(
+  const { data: isCheckEmail, refetch: checkEmailRefetch } = useQuery(
     ['checkDuplicateEmail'],
     () => checkDupliateEmail(email),
     {
@@ -19,6 +19,7 @@ const useCheckDuplicateEmail = (email: string) => {
   );
 
   return {
+    isCheckEmail,
     checkEmailRefetch,
   };
 };
