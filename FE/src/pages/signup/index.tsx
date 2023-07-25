@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import useCheckDuplicateEmail from '@/hooks/Signup/useCheckDuplicateEmail';
 import Label from '@/components/atoms/Label';
 import useSignup from '@/hooks/Signup/useSignup';
-import useModalStore from '@/store/useModalStore';
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -71,6 +70,7 @@ const Signup = () => {
       name: watch('name'),
       password: watch('pw'),
     };
+
     fetchSignupUser.mutate(newUser);
   };
 

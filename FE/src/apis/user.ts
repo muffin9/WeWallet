@@ -6,6 +6,7 @@ export const postSignupUser = async (signupData: SignupFormData) => {
     const response = await axios.post(
       `${process.env.API_URL}/user`,
       signupData,
+      { withCredentials: true },
     );
 
     return response.data;
