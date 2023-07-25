@@ -1,5 +1,6 @@
 import { User } from '../entities/user.entity';
 import { UserModel } from './domain/user.model';
+import { loginUserTypeRequest } from './interface/login';
 import { signupUserTypeRequest } from './interface/signup';
 import { IUserRepository } from './user.repository';
 import { Inject } from '@nestjs/common';
@@ -19,5 +20,9 @@ export class UserService {
 
   createUser(user: signupUserTypeRequest) {
     return this.userRepository.createUser(user);
+  }
+
+  login(user: loginUserTypeRequest) {
+    return this.userRepository.login(user);
   }
 }
