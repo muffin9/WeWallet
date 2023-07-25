@@ -225,7 +225,7 @@ const Signup = () => {
           </div>
           <div className="flex flex-col gap-y-4 justify-center m-5">
             <AccessLabel
-              variant={errors.checkPw ? 'error' : 'default'}
+              variant={watch('pw') !== watch('checkPw') ? 'error' : 'default'}
               LabelComponent={
                 <Label
                   id="checkPw"
@@ -238,11 +238,15 @@ const Signup = () => {
               name="checkPw"
               render={({ field }) => (
                 <AccessInput
-                  variant={errors.checkPw ? 'error' : 'default'}
+                  variant={
+                    watch('pw') !== watch('checkPw') ? 'error' : 'default'
+                  }
                   InputComponent={
                     <Input
                       type="password"
-                      variant={errors.checkPw ? 'error' : 'default'}
+                      variant={
+                        watch('pw') !== watch('checkPw') ? 'error' : 'default'
+                      }
                       placeholder="다시 한 번 입력해주세요."
                       {...field}
                     />
