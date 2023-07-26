@@ -13,12 +13,8 @@ const useSignup = () => {
   const fetchSignupUser = useMutation(postSignupUser, {
     onSuccess: (status: string) => {
       if (status === USER_CREATED) {
-        setType('signup');
+        setType('signup', () => router.push('/main'));
         toggleModal();
-        setTimeout(() => {
-          router.push('/login');
-          toggleModal();
-        }, 2000);
       }
     },
   });

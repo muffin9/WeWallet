@@ -15,7 +15,8 @@ interface ModalState {
   type: ModalType;
   isShowModal: boolean;
   toggleModal: () => void;
-  setType: (type: ModalType) => void;
+  setType: (type: ModalType, onModalClickCallFunc?: Function) => void;
+  onModalClick: Function;
 }
 
 const useModalStore = create<ModalState>((set) => ({
@@ -26,11 +27,13 @@ const useModalStore = create<ModalState>((set) => ({
       ...state,
       isShowModal: !state.isShowModal,
     })),
-  setType: (type: ModalType) =>
+  setType: (type: ModalType, onModalClickCallFunc?: Function) =>
     set((state) => ({
       ...state,
       type,
+      onModalClick: onModalClickCallFunc || state.toggleModal,
     })),
+  onModalClick: () => {},
 }));
 
 export default useModalStore;

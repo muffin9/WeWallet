@@ -10,18 +10,7 @@ const meta: Meta<typeof Modal> = {
 export default meta;
 
 const PrimitiveModal = () => {
-  return (
-    <Modal size="medium">
-      <div className="mt-auto">
-        <Button
-          variant="success"
-          text="확인"
-          size="medium"
-          width="w-60"
-        />
-      </div>
-    </Modal>
-  );
+  return <Modal size="medium" />;
 };
 
 export const Primary = {
