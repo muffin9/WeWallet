@@ -5,6 +5,7 @@ import { User } from '@/entities/user.entity';
 import { signupUserTypeRequest } from './interface/signup';
 import { USER_STATUS } from './interface/status';
 import { loginUserTypeRequest } from './interface/login';
+import { transformPassword, validatePassword } from './user.util';
 
 export interface IUserRepository {
   getUserByUserEmail(email: string): Promise<UserModel>;
@@ -37,11 +38,18 @@ export class UserRepository implements IUserRepository {
   }
 
   async createUser(user: signupUserTypeRequest) {
+    const convertedPassword = await transformPassword(user.password);
+
     const newUser = await this.dataSource
       .createQueryBuilder()
       .insert()
       .into(User)
-      .values({ ...user, createdAt: new Date(), provider: 1 })
+      .values({
+        ...user,
+        password: convertedPassword,
+        createdAt: new Date(),
+        provider: 1,
+      })
       .execute();
 
     if (newUser) return USER_STATUS.USER_CREATED;
@@ -50,12 +58,16 @@ export class UserRepository implements IUserRepository {
   async login(user: loginUserTypeRequest) {
     const { email, password } = user;
 
-    const findEmail = await this.dataSource
+    const findUser = await this.dataSource
       .createQueryBuilder(User, 'user')
       .where('user.email = :email', { email })
       .getOne();
-    if (!findEmail) return USER_STATUS.USER_NONE_EMAIL;
-    // bcrypt.compareSync(password, findEmail.password)
+
+    if (!findUser) return USER_STATUS.USER_NONE_EMAIL;
+
+    if (!(await validatePassword(password, findUser.password)))
+      return USER_STATUS.USER_MISMATCH_PASSWORD;
+
     return USER_STATUS.USER_LOGIN_SUCCESS;
   }
 }
