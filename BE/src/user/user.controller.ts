@@ -62,4 +62,9 @@ export class UserController {
       res.status(400).json({ message: 'User creation failed.' });
     }
   }
+
+  @Post('/login')
+  async login(@Body() user: signupUserTypeRequest) {
+    return this.userService.login(user);
+  }
 }
