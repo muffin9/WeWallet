@@ -28,6 +28,7 @@ const Modal = ({ size = 'medium', ...restProps }: ModalProps) => {
   const isShowModal = useModalStore((state) => state.isShowModal);
   const toggleModal = useModalStore((state) => state.toggleModal);
   const type = useModalStore((state) => state.type) as ModalType;
+  const onModalClick = useModalStore((state) => state.onModalClick);
 
   const sizeClass = calculatedSizeClasses(size);
 
@@ -55,7 +56,7 @@ const Modal = ({ size = 'medium', ...restProps }: ModalProps) => {
                 size="small"
                 text={ModalOkButton[type]}
                 className="text-xs mt-auto"
-                onClick={toggleModal}
+                onClick={() => onModalClick()}
               />
             </>
           )}
