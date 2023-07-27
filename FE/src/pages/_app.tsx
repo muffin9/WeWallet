@@ -5,7 +5,7 @@ import { AppProps } from 'next/app';
 import { server } from '@/mocks/browsers/testServer';
 import GlobalStore from '@/store/GlobalStore';
 import QueryProvider from '@/utils/QueryProvider';
-import Modal from '@/components/molecule/Modal';
+import ResponseModal from '@/components/molecule/ResponseModal';
 import useModalStore from '@/store/useModalStore';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <main className="h-screen min-h-[50rem] flex flex-col items-center">
         <Component {...pageProps} />
       </main>
-      {isShowModal && <Modal size="medium" />}
+      {isShowModal && <ResponseModal />}
     </QueryProvider>
   );
 }
