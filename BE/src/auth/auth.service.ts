@@ -21,8 +21,11 @@ export class AuthService implements SessionUseCase {
   logout(email: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  restoreAccessToken(command: RestoreAccessTokenComamnd): Promise<string> {
-    throw new Error('Method not implemented.');
+  async restoreAccessToken(command: RestoreAccessTokenComamnd) {
+    const { nickname, email } = command;
+    const payload = { nickname, email };
+    const accessTokenJwt = await this.tokenService.createAccessToken(payload);
+    return accessTokenJwt;
   }
 
   async socialLogin(command: SocialLoginCommand) {
