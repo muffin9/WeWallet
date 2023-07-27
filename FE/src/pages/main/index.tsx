@@ -6,6 +6,9 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { restoreAccessToken } from '@/apis/auth';
 import useUserStore from '@/store/useUserStore';
+import Header from '@/components/molecule/Header';
+import DateInput from '@/components/organism/main/DateInput';
+import TransSection from '@/components/organism/main/TransSection';
 
 interface mainProps {
   accessToken: string | null;
@@ -41,15 +44,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export const main = ({ accessToken, refreshToken }: mainProps) => {
+const main = ({ accessToken, refreshToken }: mainProps) => {
   const router = useRouter();
-  const getUser = useUserStore((state) => state.getUser);
+  const { userId } = useUserStore((state) => state.getUser)();
 
   useEffect(() => {
-    if (accessToken === null || refreshToken === null) router.push('/login');
+    if (accessToken === null || refreshToken === null || userId === null)
+      router.push('/login');
   }, []);
 
-  return <div>main!</div>;
+  return (
+    <section className="w-80 h-full flex flex-col bg-light-black">
+      <Header />
+      <div className="flex flex-col p-4">
+        <div className="flex justify-between items-center">
+          <DateInput />
+        </div>
+        <div className="flex justify-between items-center mt-8">
+          <TransSection />
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default main;
