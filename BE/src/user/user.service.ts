@@ -18,8 +18,8 @@ export class UserService {
     return this.userRepository.getUserByUserEmail(email);
   }
 
-  createUser(user: signupUserTypeRequest) {
-    return this.userRepository.createUser(user);
+  signupUser(user: signupUserTypeRequest) {
+    return this.userRepository.signupUser(user);
   }
 
   login(user: loginUserTypeRequest) {
