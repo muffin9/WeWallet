@@ -2,16 +2,19 @@ import { Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { UserModel } from './domain/user.model';
 import { User } from '@/entities/user.entity';
-import { signupUserTypeRequest } from './interface/signup';
+import {
+  signupUserTypeRequest,
+  signupUserTypeResponse,
+} from './interface/signup';
 import { USER_STATUS } from './interface/status';
-import { loginUserTypeRequest } from './interface/login';
+import { loginUserTypeRequest, loginUserTypeResponse } from './interface/login';
 import { transformPassword, validatePassword } from './user.util';
 
 export interface IUserRepository {
   getUserByUserEmail(email: string): Promise<UserModel>;
   findAll: () => Promise<User[]>;
-  createUser: (user: signupUserTypeRequest) => Promise<string>;
-  login: (user: loginUserTypeRequest) => Promise<string>;
+  signupUser: (user: signupUserTypeRequest) => Promise<signupUserTypeResponse>;
+  login: (user: loginUserTypeRequest) => Promise<loginUserTypeResponse>;
 }
 
 @Injectable()
@@ -37,7 +40,7 @@ export class UserRepository implements IUserRepository {
     return user.toModel();
   }
 
-  async createUser(user: signupUserTypeRequest) {
+  async signupUser(user: signupUserTypeRequest) {
     const convertedPassword = await transformPassword(user.password);
 
     const newUser = await this.dataSource
@@ -52,7 +55,15 @@ export class UserRepository implements IUserRepository {
       })
       .execute();
 
-    if (newUser) return USER_STATUS.USER_CREATED;
+    if (newUser)
+      return {
+        status: USER_STATUS.USER_CREATED,
+        user: {
+          userId: newUser.raw.insertId,
+          email: user.email,
+          nickname: user.nickname,
+        },
+      };
   }
 
   async login(user: loginUserTypeRequest) {
@@ -63,11 +74,18 @@ export class UserRepository implements IUserRepository {
       .where('user.email = :email', { email })
       .getOne();
 
-    if (!findUser) return USER_STATUS.USER_NONE_EMAIL;
+    if (!findUser) return { status: USER_STATUS.USER_NONE_EMAIL, user: null };
 
     if (!(await validatePassword(password, findUser.password)))
-      return USER_STATUS.USER_MISMATCH_PASSWORD;
+      return { status: USER_STATUS.USER_MISMATCH_PASSWORD, user: null };
 
-    return USER_STATUS.USER_LOGIN_SUCCESS;
+    return {
+      status: USER_STATUS.USER_LOGIN_SUCCESS,
+      user: {
+        userId: findUser.id,
+        email: findUser.email,
+        nickname: findUser.nickname,
+      },
+    };
   }
 }
