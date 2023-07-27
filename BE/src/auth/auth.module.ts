@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UserModule } from '@/user/user.module';
 import { MysqlModule } from '../provider/database.module';
 import { AuthController } from './auth.controller';
@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { JwtTokenService } from './strategies/jwt.strategy';
 import { SessionStore } from './session/session.store';
 import { SessionRepository } from './session/session.repository';
+import { AuthMiddleware } from './auth.middleware';
 
 @Module({
   imports: [UserModule, MysqlModule],
@@ -31,4 +32,8 @@ import { SessionRepository } from './session/session.repository';
     },
   ],
 })
-export class AuthModule {}
+export class AuthModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('trans');
+  }
+}
