@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface UserState {
   userId: number;
@@ -13,18 +14,23 @@ interface UserStoreState {
   getUser: () => UserState;
 }
 
-const useUserStore = create<UserStoreState>((set, get) => ({
-  user: {
-    userId: 0,
-    email: '',
-    nickname: '',
-  },
-  setUser: (user: UserState) =>
-    set((state) => ({
-      ...state,
-      user,
-    })),
-  getUser: () => get().user,
-}));
+const useUserStore = create(
+  persist(
+    (set: Function, get: Function) => ({
+      user: {
+        userId: 0,
+        email: '',
+        nickname: '',
+      },
+      setUser: (user: UserState) =>
+        set((state: UserStoreState) => ({
+          ...state,
+          user,
+        })),
+      getUser: () => get().user,
+    }),
+    { name: 'user-store' },
+  ),
+);
 
 export default useUserStore;
