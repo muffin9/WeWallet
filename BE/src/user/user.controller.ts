@@ -32,16 +32,19 @@ export class UserController {
     return this.userService.getUserbyEmail(email);
   }
 
-  @Post('/')
-  async createUser(@Body() user: signupUserTypeRequest, @Res() res: Response) {
-    const status = await this.userService.createUser(user);
+  @Post('/signup')
+  async signupUser(
+    @Body() requestUser: signupUserTypeRequest,
+    @Res() res: Response,
+  ) {
+    const { user, status } = await this.userService.signupUser(requestUser);
 
     if (status === USER_STATUS.USER_CREATED) {
       const loginInfo = await this.sessionUsecase.localLogin(
         AuthDtoMapper.toLocalLoginCommand({
-          email: user.email,
-          nickname: user.nickname,
-          name: user.name,
+          email: requestUser.email,
+          nickname: requestUser.nickname,
+          name: requestUser.name,
         }),
       );
 
@@ -57,7 +60,7 @@ export class UserController {
         httpOnly: true,
       });
 
-      res.send(status);
+      res.send({ status, user });
     } else {
       res.status(400).json({ message: 'User creation failed.' });
     }
