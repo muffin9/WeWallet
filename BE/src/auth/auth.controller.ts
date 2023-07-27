@@ -73,8 +73,6 @@ export class AuthController {
       AuthDtoMapper.toSocialLoginCommand(req),
     );
 
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.cookie('refresh-token', loginInfo.refreshToken, {
       path: '/',
       maxAge: 60 * 60 * 10,
