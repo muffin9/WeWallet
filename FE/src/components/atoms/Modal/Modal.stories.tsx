@@ -1,6 +1,5 @@
 import type { Meta } from '@storybook/react';
 import Modal from '.';
-import Button from '@/components/atoms/Button';
 
 const meta: Meta<typeof Modal> = {
   title: 'Primitive/Modal',
@@ -10,7 +9,11 @@ const meta: Meta<typeof Modal> = {
 export default meta;
 
 const PrimitiveModal = () => {
-  return <Modal size="medium" />;
+  return (
+    <Modal size="medium">
+      <div>Modal!!</div>
+    </Modal>
+  );
 };
 
 export const Primary = {
