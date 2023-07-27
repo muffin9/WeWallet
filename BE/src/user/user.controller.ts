@@ -67,7 +67,36 @@ export class UserController {
   }
 
   @Post('/login')
-  async login(@Body() user: signupUserTypeRequest) {
-    return this.userService.login(user);
+  async login(
+    @Body() requestUser: signupUserTypeRequest,
+    @Res() res: Response,
+  ) {
+    const { user, status } = await this.userService.login(requestUser);
+
+    if (status === USER_STATUS.USER_LOGIN_SUCCESS) {
+      const loginInfo = await this.sessionUsecase.localLogin(
+        AuthDtoMapper.toLocalLoginCommand({
+          email: user.email,
+          nickname: user.nickname,
+          name: user.nickname,
+        }),
+      );
+
+      res.cookie('refresh-token', loginInfo.refreshToken, {
+        path: '/',
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+
+      res.cookie('access-token', loginInfo.accessToken, {
+        path: '/',
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+
+      res.send({ status, user });
+    } else {
+      res.status(400).json({ message: 'User Login failed.' });
+    }
   }
 }
