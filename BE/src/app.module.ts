@@ -5,12 +5,14 @@ import { AuthModule } from '@/auth/auth.module';
 import { configModuleOptions } from '@/provider/config.module.options';
 import { healthCheckController } from '@/healthCheck.controller';
 import { MysqlModule } from '@/provider/database.module';
+import { TransModule } from './trans/trans.module';
 
 @Module({
   imports: [
     MysqlModule,
     AuthModule,
     UserModule,
+    TransModule,
     ConfigModule.forRoot({ ...configModuleOptions }),
   ],
   controllers: [healthCheckController],

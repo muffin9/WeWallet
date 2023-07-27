@@ -4,7 +4,7 @@ import {
   LocalLoginCommand,
 } from '../usecase/login.usecase';
 import { kakaoUserTypeResponse } from '../interface/kakao.user';
-import { LocalUserTypeResponse } from './local.user';
+import { RestoreAccessTokenComamnd } from '../command/restore.access.token.command';
 
 export class AuthDtoMapper {
   public static toSocialLoginCommand(request: Request & kakaoUserTypeResponse) {
@@ -20,5 +20,12 @@ export class AuthDtoMapper {
     name: string;
   }) {
     return new LocalLoginCommand(request);
+  }
+
+  public static toAccessTokenRestoreCommand(
+    request: Request & { user: { email: string; nickname: string } },
+  ) {
+    const { email, nickname } = request.user;
+    return new RestoreAccessTokenComamnd(email, nickname);
   }
 }

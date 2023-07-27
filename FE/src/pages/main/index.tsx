@@ -5,6 +5,7 @@ import { deleteCookie } from '@/utils/cookie';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { restoreAccessToken } from '@/apis/auth';
+import useUserStore from '@/store/useUserStore';
 
 interface mainProps {
   accessToken: string | null;
@@ -42,6 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export const main = ({ accessToken, refreshToken }: mainProps) => {
   const router = useRouter();
+  const getUser = useUserStore((state) => state.getUser);
 
   useEffect(() => {
     if (accessToken === null || refreshToken === null) router.push('/login');

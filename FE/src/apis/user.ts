@@ -4,7 +4,7 @@ import axios from 'axios';
 export const postSignupUser = async (signupData: SignupFormData) => {
   try {
     const response = await axios.post(
-      `${process.env.API_URL}/user`,
+      `${process.env.API_URL}/user/signup`,
       signupData,
       { withCredentials: true },
     );
