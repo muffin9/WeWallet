@@ -27,7 +27,7 @@ export const SVGIcon = ({
       height={height}
       viewBox={`0 0 ${width} ${height}`}
       xmlns="http://www.w3.org/2000/svg"
-      className={`${colorClasses} fill-current`}
+      className={`${colorClasses} flex items-center fill-current`}
     >
       <path d={d} />
     </svg>
