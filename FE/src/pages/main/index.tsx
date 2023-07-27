@@ -9,6 +9,7 @@ import useUserStore from '@/store/useUserStore';
 import Header from '@/components/molecule/Header';
 import DateInput from '@/components/organism/main/DateInput';
 import TransSection from '@/components/organism/main/TransSection';
+import { Calendar } from '@/components/shadcn/Calendar';
 
 interface mainProps {
   accessToken: string | null;
@@ -54,7 +55,7 @@ const main = ({ accessToken, refreshToken }: mainProps) => {
   }, []);
 
   return (
-    <section className="w-80 h-full flex flex-col bg-light-black">
+    <section className="w-80 h-full flex flex-col gap-y-12 bg-light-black">
       <Header />
       <div className="flex flex-col p-4">
         <div className="flex justify-between items-center">
@@ -63,6 +64,9 @@ const main = ({ accessToken, refreshToken }: mainProps) => {
         <div className="flex justify-between items-center mt-8">
           <TransSection />
         </div>
+      </div>
+      <div className="flex justify-center items-center">
+        <Calendar />
       </div>
     </section>
   );
