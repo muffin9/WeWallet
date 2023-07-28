@@ -1,0 +1,27 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/blocks";
+import ClickSelectBox from "./";
+
+<Meta title="Primitive/ClickSelectBox" component={ClickSelectBox} />
+
+# ClickSelectBox
+
+내역 추가 모달에서 사용되어지는 ClickSelectBox 입니다.(Label이 default로 고정되어 있으며 추가적으로 children을 받게 되어있는데, 주로 ClickBox와 조합하여 사용합니다.)
+
+## Props
+
+```ts
+interface ClickSelectBoxProps {
+  /**
+   * 클릭 박스에서 다루는 데이터 id
+   */
+  id: string;
+  /**
+   * 클릭박스에서 다루는 데이터 이름
+   */
+  name?: boolean;
+  /**
+   * 클릭박스 자식 컴포넌트
+   */
+  children: Function;
+}
+```

@@ -10,7 +10,10 @@ export default meta;
 
 const PrimitiveModal = () => {
   return (
-    <Modal size="medium">
+    <Modal
+      size="medium"
+      onCloseModal={() => console.log('close modal!')}
+    >
       <div>Modal!!</div>
     </Modal>
   );
