@@ -7,9 +7,13 @@ import Modal from '@/components/atoms/Modal';
 const ResponseModal = () => {
   const type = useModalStore((state) => state.type) as ModalType;
   const onModalClick = useModalStore((state) => state.onModalClick);
+  const toggleModal = useModalStore((state) => state.toggleModal);
 
   return (
-    <Modal size="medium">
+    <Modal
+      size="medium"
+      onCloseModal={toggleModal}
+    >
       {type === 'loading' ? (
         <LoadingSpinner size="medium" />
       ) : (

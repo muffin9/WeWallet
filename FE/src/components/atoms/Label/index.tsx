@@ -4,18 +4,20 @@ type LabelProps = {
   id: string;
   name: string;
   color?: string;
+  className?: string;
 };
 
 const Label = ({
   id,
   name,
   color = 'text-black',
+  className,
   ...restProps
 }: LabelProps) => {
   return (
     <LabelPrimitive.Root
       htmlFor={id}
-      className={`${color} font-pretendard text-xs`}
+      className={`${color} ${className} font-pretendard text-xs `}
       {...restProps}
     >
       {name}

@@ -3,6 +3,7 @@ type VariantType = {
   primary: string;
   kakao: string;
   success: string;
+  ghost: string;
 };
 
 type SizeType = 'small' | 'medium' | 'large';
@@ -39,6 +40,8 @@ const calculatedType: VariantType = {
     'bg-gradient-to-r from-cyan to-light-green text-gray font-spoqa rounded-2xl',
   kakao: 'bg-yellow text-gray font-spoqa rounded-2xl hover:bg-golden',
   success: 'bg-success text-white font-spoqa rounded-2xl',
+  ghost:
+    'bg-transparent text-gray font-pretendard border-solid border-gray border-[1px] rounded-xl active:bg-success',
 };
 
 const Button = ({

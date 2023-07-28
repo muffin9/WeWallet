@@ -62,6 +62,7 @@ module.exports = {
         midnight: '#121063',
         silver: '#b6c4d9',
         error: '#FF5F5F',
+        placeholder: '#a9a9a9',
       },
       borderRadius: {
         lg: 'var(--radius)',
