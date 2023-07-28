@@ -1,14 +1,16 @@
 import ReactDom from 'react-dom';
-import useModalStore from '@/store/useModalStore';
 
-type SizeType = 'small' | 'medium' | 'large';
+type SizeType = 'small' | 'medium' | 'large' | 'addTran';
 
 interface ModalProps {
   children: React.ReactNode;
   size: SizeType;
+  onCloseModal: () => void;
 }
 
-const calculatedSizeClasses = (size: 'small' | 'medium' | 'large') => {
+const calculatedSizeClasses = (
+  size: 'small' | 'medium' | 'large' | 'addTran',
+) => {
   switch (size) {
     case 'small': {
       return 'w-48 h-32 p-4';
@@ -19,19 +21,20 @@ const calculatedSizeClasses = (size: 'small' | 'medium' | 'large') => {
     case 'large': {
       return 'w-84 h-56 p-8';
     }
+    case 'addTran': {
+      return 'w-102 h-auto p-16';
+    }
   }
 };
 
-const Modal = ({ children, size, ...restProps }: ModalProps) => {
-  const isShowModal = useModalStore((state) => state.isShowModal);
-  const toggleModal = useModalStore((state) => state.toggleModal);
+const Modal = ({ children, size, onCloseModal, ...restProps }: ModalProps) => {
   const sizeClass = calculatedSizeClasses(size);
 
   return ReactDom.createPortal(
     <>
       <div
         className="fixed top-0 right-0 bottom-0 left-0 z-[999] bg-black opacity-60"
-        onClick={toggleModal}
+        onClick={onCloseModal}
       />
       <section
         className={`${sizeClass} flex flex-col items-center gap-y-2 fixed top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] rounded-lg z-[999] bg-white font-pretendard`}
