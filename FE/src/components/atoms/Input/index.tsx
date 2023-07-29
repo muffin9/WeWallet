@@ -7,6 +7,8 @@ interface InputProps {
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
+  className?: string;
+  maxLen?: number;
 }
 
 const calculatedType = {
@@ -22,16 +24,19 @@ const Input = ({
   placeholder,
   onChange,
   value,
+  className,
+  maxLen,
 }: InputProps) => {
   const colorClasses = calculatedType[variant];
   return (
     <input
       type={type}
       name={name}
-      className={`${colorClasses} w-72 h-8 border-x-0 border-b border-solid bg-transparent font-pretendard text-xl`}
+      className={`${colorClasses} ${className} w-72 h-8 border-x-0 border-b border-solid bg-transparent font-pretendard text-xl`}
       placeholder={placeholder}
       onChange={onChange}
       value={value}
+      maxLength={maxLen}
       autoFocus
     />
   );

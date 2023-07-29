@@ -1,0 +1,27 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/blocks";
+import ScrollArea from "./";
+
+<Meta title="Primitive/ScrollArea" component={ScrollArea} />
+
+# ScrollArea
+
+프로젝트 내에서 스크롤이 존재하는 Area 컴포넌트 입니다. (여러 목록들을 보여주고 해당 목록의 아이템을 클릭했을때 상태를 변경할 수 있는 컴포넌트)
+
+## Props
+
+```ts
+interface ScrollAreaProps {
+  /**
+   * 제목
+   */
+  title: string;
+  /**
+   * key-value 형태로 이뤄져 있는 데이터
+   */
+  values: { [key: string]: string };
+  /**
+   * Area 영역내에서 아이템 클릭시 해당 아이템으로 value가 변경된다.
+   */
+  onClick: (value: string) => void;
+}
+```
