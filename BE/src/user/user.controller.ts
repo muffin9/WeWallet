@@ -14,6 +14,7 @@ import { Response } from 'express';
 import { USER_STATUS } from './interface/status';
 import { SessionUseCase } from '@/auth/usecase/login.usecase';
 import { AuthDtoMapper } from '@/auth/interface/auth.dto.mapper';
+import { loginUserTypeRequest } from './interface/login';
 
 @Controller('/user')
 export class UserController {
@@ -61,16 +62,13 @@ export class UserController {
       });
 
       res.send({ status, user });
-    } else {
-      res.status(400).json({ message: 'User creation failed.' });
     }
+
+    res.send({ status, user });
   }
 
   @Post('/login')
-  async login(
-    @Body() requestUser: signupUserTypeRequest,
-    @Res() res: Response,
-  ) {
+  async login(@Body() requestUser: loginUserTypeRequest, @Res() res: Response) {
     const { user, status } = await this.userService.login(requestUser);
 
     if (status === USER_STATUS.USER_LOGIN_SUCCESS) {
@@ -95,8 +93,8 @@ export class UserController {
       });
 
       res.send({ status, user });
-    } else {
-      res.status(400).json({ message: 'User Login failed.' });
     }
+
+    res.send({ status, user });
   }
 }
