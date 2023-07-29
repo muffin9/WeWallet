@@ -13,7 +13,7 @@ const ClickSelectBox = ({ id, name, children }: ClickSelectBoxProps) => {
         id={id}
         name={name}
         color="text-gray"
-        className="w-16"
+        className="w-24"
       />
       {children}
     </div>

@@ -1,3 +1,5 @@
+const { blackA, mauve, violet } = require('@radix-ui/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
@@ -63,6 +65,9 @@ module.exports = {
         silver: '#b6c4d9',
         error: '#FF5F5F',
         placeholder: '#a9a9a9',
+        ...blackA,
+        ...mauve,
+        ...violet,
       },
       borderRadius: {
         lg: 'var(--radius)',

@@ -1,7 +1,14 @@
 import Button from '@/components/atoms/Button';
 import BudgetText from '@/components/molecule/BudgetText';
+import AddTranModal from './AddTranModal';
+import { useState } from 'react';
 
 const TransSection = () => {
+  const [isShowModal, setIsShowModal] = useState(false);
+  const toggleModal = () => {
+    setIsShowModal(!isShowModal);
+  };
+
   return (
     <>
       <BudgetText
@@ -19,8 +26,10 @@ const TransSection = () => {
           size="small"
           text="내역추가"
           className="rounded-md text-xs"
+          onClick={toggleModal}
         />
       </div>
+      {isShowModal && <AddTranModal onCloseModal={toggleModal} />}
     </>
   );
 };

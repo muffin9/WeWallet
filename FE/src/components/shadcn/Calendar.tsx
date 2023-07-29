@@ -5,14 +5,20 @@ import { DayPicker } from 'react-day-picker';
 import { cn } from '@/utils/util';
 import { buttonVariants } from '@/components/shadcn/Button';
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+type CalendarProps = React.ComponentProps<typeof DayPicker>;
+
+type CustomCalendarPRops = CalendarProps & {
+  color?: string;
+};
 
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  color,
   ...props
-}: CalendarProps) {
+}: CustomCalendarPRops) {
+  const textColor = color || 'text-white';
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -20,7 +26,7 @@ function Calendar({
       classNames={{
         months: '',
         month: 'space-y-8',
-        caption: 'flex justify-center pt-1 relative items-center text-white',
+        caption: `flex justify-center pt-1 relative items-center ${textColor}`,
         caption_label: 'text-sm font-spoqa',
         nav: 'space-x-1 flex items-center',
         nav_button: cn(
@@ -29,8 +35,7 @@ function Calendar({
         ),
         nav_button_previous: 'absolute left-1',
         nav_button_next: 'absolute right-1',
-        table:
-          'flex flex-col items-center border-collapse space-y-1 text-white',
+        table: `flex flex-col items-center border-collapse space-y-1 ${textColor}`,
         head_row: 'flex gap-x-2',
         head_cell: 'text-muted-foreground rounded-md w-9 font-normal',
         row: 'flex w-full mt-4 gap-x-2',
@@ -51,10 +56,10 @@ function Calendar({
       }}
       components={{
         IconLeft: ({ ...props }) => (
-          <ChevronLeft className="h-4 w-4 text-white" />
+          <ChevronLeft className={`h-4 w-4 ${textColor}`} />
         ),
         IconRight: ({ ...props }) => (
-          <ChevronRight className="h-4 w-4 text-white" />
+          <ChevronRight className={`h-4 w-4 ${textColor}`} />
         ),
       }}
       {...props}
