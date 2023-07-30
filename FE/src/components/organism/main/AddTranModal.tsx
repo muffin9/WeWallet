@@ -11,14 +11,27 @@ import GridContentArea from '@/components/molecule/GridContentArea';
 import PriceInput from '@/components/molecule/PriceInput';
 import { Calendar } from '@/components/shadcn/Calendar';
 import { Categories, PaymentMethods, TransType } from '@/constants/util';
+import useTransAction from '@/hooks/TransAction/useTransAction';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
+import { use, useState, useTransition } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 interface AddTranModalProps {
   onCloseModal: () => void;
 }
+
+export type TypeTransactions = {
+  price: string;
+  type: string;
+  category: string | undefined;
+  subCategory: string | undefined;
+  account: string | undefined;
+  paymentMethod: string | undefined;
+  date: Date;
+  memo: string | undefined;
+  isBudget: boolean;
+};
 
 const validationSchema = yup.object().shape({
   price: yup.string().required('금액을 입력해주세요.'),
@@ -37,11 +50,10 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
     control,
     handleSubmit,
     formState: { isDirty, isValid },
-    watch,
   } = useForm({
     defaultValues: {
       price: '',
-      type: '지출',
+      type: 'income',
       category: '',
       subCategory: '',
       account: '',
@@ -54,14 +66,16 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
     resolver: yupResolver(validationSchema),
   });
 
+  const { fetchPostTransAction } = useTransAction();
+
   const [bottomPopupType, setBottomPopupType] = useState('');
 
   const togglePopup = (popup: string) => {
     setBottomPopupType(popup);
   };
 
-  const onSubmit = () => {
-    console.log(watch('price'));
+  const onSubmit = (data: TypeTransactions) => {
+    fetchPostTransAction.mutate(data);
   };
 
   return (
