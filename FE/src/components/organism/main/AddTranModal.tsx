@@ -10,7 +10,7 @@ import ClickSelectBox from '@/components/molecule/ClickSelectBox';
 import GridContentArea from '@/components/molecule/GridContentArea';
 import PriceInput from '@/components/molecule/PriceInput';
 import { Calendar } from '@/components/shadcn/Calendar';
-import { Categories, PaymentMethods } from '@/constants/util';
+import { Categories, PaymentMethods, TransType } from '@/constants/util';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -29,19 +29,19 @@ const validationSchema = yup.object().shape({
   paymentMethod: yup.string(),
   date: yup.date().required('날짜를 선택해주세요.'),
   memo: yup.string(),
-  isBudget: yup.boolean(),
+  isBudget: yup.boolean().required('예산여부를 선택해주세요.'),
 });
 
 const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { isDirty, isValid },
     watch,
   } = useForm({
     defaultValues: {
       price: '',
-      type: '',
+      type: '지출',
       category: '',
       subCategory: '',
       account: '',
@@ -60,14 +60,16 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
     setBottomPopupType(popup);
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    console.log(watch('price'));
+  };
 
   return (
     <Modal
       size="addTran"
       onCloseModal={onCloseModal}
     >
-      <header className="text-xl font-GangwonEduPower">내역추가</header>
+      <header className="text-xl font-GangwonEduPower mb-8">내역추가</header>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-y-2">
           <Controller
@@ -89,21 +91,19 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 name={'분류'}
               >
                 <div className="flex gap-x-2">
-                  <Button
-                    size="small"
-                    variant="ghost"
-                    text="지출"
-                  />
-                  <Button
-                    size="small"
-                    variant="ghost"
-                    text="수입"
-                  />
-                  <Button
-                    size="small"
-                    variant="ghost"
-                    text="이체"
-                  />
+                  {Object.entries(TransType).map(([key, value]) => {
+                    return (
+                      <Button
+                        size="small"
+                        variant="ghost"
+                        text={value}
+                        onClick={() => field.onChange(key)}
+                        className={`${
+                          field.value === key && 'border-success text-success'
+                        }`}
+                      />
+                    );
+                  })}
                 </div>
               </ClickSelectBox>
             )}
@@ -204,7 +204,7 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 name="날짜"
               >
                 <ClickBox
-                  placeholder={new Date().toDateString()}
+                  placeholder={field.value.toDateString()}
                   callbackFunc={() => togglePopup('date')}
                 />
                 {bottomPopupType === 'date' && (
@@ -274,10 +274,12 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
         </div>
         <Button
           size="large"
-          variant="primary"
+          variant={!isDirty || !isValid ? 'default' : 'primary'}
+          disabled={!isDirty || !isValid}
           text="저장하기"
           width="w-full"
           className="mt-8"
+          type="submit"
         />
       </form>
     </Modal>

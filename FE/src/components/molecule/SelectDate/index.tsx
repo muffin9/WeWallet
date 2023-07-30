@@ -17,7 +17,7 @@ const SelectDate = ({ month, prevClick, nextClick }: SelectDateProps) => {
           variant="default"
           width={20}
           height={30}
-          d="M14 26L2 14L14 2V26Z"
+          d={['M14 26L2 14L14 2V26Z']}
         />
       </div>
       <div className="flex items-center text-white text-lg">{month} 월</div>
@@ -29,7 +29,7 @@ const SelectDate = ({ month, prevClick, nextClick }: SelectDateProps) => {
           variant="default"
           width={20}
           height={30}
-          d="M2 2L14 14L2 26V2Z"
+          d={['M2 2L14 14L2 26V2Z']}
         />
       </div>
     </div>
