@@ -8,9 +8,7 @@ interface ModalProps {
   onCloseModal: () => void;
 }
 
-const calculatedSizeClasses = (
-  size: 'small' | 'medium' | 'large' | 'addTran',
-) => {
+const calculatedSizeClasses = (size: SizeType) => {
   switch (size) {
     case 'small': {
       return 'w-48 h-32 p-4';

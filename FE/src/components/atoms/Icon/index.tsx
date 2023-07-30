@@ -4,7 +4,7 @@ interface SVGIconProps {
   variant?: VariantType;
   width: number;
   height: number;
-  d?: string;
+  d: string[];
 }
 
 const calcualtedType = {
@@ -29,7 +29,9 @@ export const SVGIcon = ({
       xmlns="http://www.w3.org/2000/svg"
       className={`${colorClasses} flex items-center fill-current`}
     >
-      <path d={d} />
+      {d.map((dPath: string) => {
+        return <path d={dPath} />;
+      })}
     </svg>
   );
 };
