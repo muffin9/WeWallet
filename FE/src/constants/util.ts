@@ -41,3 +41,9 @@ export const Categories = {
   culture: { name: '문화', imagePath: cultureImagePath },
   travel: { name: '여행', imagePath: travelImagePath },
 };
+
+export const TransType = {
+  income: '수입',
+  expenditure: '지출',
+  transfer: '이체',
+};

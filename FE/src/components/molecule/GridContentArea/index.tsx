@@ -12,11 +12,11 @@ interface GridContentAreaProps {
 const calculatedSize = (size: SizeType) => {
   switch (size) {
     case 'small':
-      return 'grid-cols-4';
+      return 'grid-cols-4 gap-4';
     case 'medium':
-      return 'grid-cols-8';
+      return 'grid-cols-8 gap-8';
     case 'large':
-      return 'grid-cols-12';
+      return 'grid-cols-12 gap-12';
   }
 };
 
@@ -30,7 +30,7 @@ const GridContentArea = ({
       {Object.entries(values).map(([key, value]) => (
         <>
           <div
-            className="flex flex-col items-center flex-wrap gap-y-2"
+            className="flex flex-col items-center flex-wrap gap-y-2 cursor-pointer"
             key={key}
             onClick={() => onClick(key)}
           >

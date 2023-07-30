@@ -20,7 +20,7 @@ const calculatedSizeClasses = (size: SizeType) => {
       return 'w-84 h-56 p-8';
     }
     case 'addTran': {
-      return 'w-102 h-auto p-16';
+      return 'w-102 h-auto p-12';
     }
   }
 };
