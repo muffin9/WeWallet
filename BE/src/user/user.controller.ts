@@ -43,9 +43,9 @@ export class UserController {
     if (status === USER_STATUS.USER_CREATED) {
       const loginInfo = await this.sessionUsecase.localLogin(
         AuthDtoMapper.toLocalLoginCommand({
-          email: requestUser.email,
-          nickname: requestUser.nickname,
-          name: requestUser.name,
+          userId: user.userId,
+          email: user.email,
+          nickname: user.nickname,
         }),
       );
 
@@ -74,9 +74,9 @@ export class UserController {
     if (status === USER_STATUS.USER_LOGIN_SUCCESS) {
       const loginInfo = await this.sessionUsecase.localLogin(
         AuthDtoMapper.toLocalLoginCommand({
+          userId: user.userId,
           email: user.email,
           nickname: user.nickname,
-          name: user.nickname,
         }),
       );
 

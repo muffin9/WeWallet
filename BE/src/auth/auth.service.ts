@@ -29,7 +29,7 @@ export class AuthService implements SessionUseCase {
   }
 
   async socialLogin(command: SocialLoginCommand) {
-    const { nickname, email, userId } = command;
+    const { userId, email, nickname } = command;
     const payload = { nickname, email, userId };
     const [accessTokenJwt, refreshTokenJwt] = await Promise.all([
       this.tokenService.createAccessToken(payload),
@@ -40,8 +40,8 @@ export class AuthService implements SessionUseCase {
   }
 
   async localLogin(command: LocalLoginCommand) {
-    const { email, nickname, name } = command;
-    const payload = { nickname, email, name };
+    const { userId, email, nickname } = command;
+    const payload = { userId, email, nickname };
     const [accessTokenJwt, refreshTokenJwt] = await Promise.all([
       this.tokenService.createAccessToken(payload),
       this.tokenService.createRefreshToken(payload),
