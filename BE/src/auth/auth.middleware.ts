@@ -1,31 +1,30 @@
-import commonLoginConfig from '@/config/common.login.config';
-import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { Request, Response, NextFunction } from 'express';
-import * as jwt from 'jsonwebtoken';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import * as jwService from 'jsonwebtoken';
 
 @Injectable()
-export class AuthMiddleware implements NestMiddleware {
-  constructor(
-    @Inject(commonLoginConfig.KEY)
-    private readonly config: ConfigType<typeof commonLoginConfig>,
-  ) {}
+export class JwtAuthGuard implements CanActivate {
+  constructor() {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
-    const token = req.cookies['access-token'];
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
 
-    if (!token) {
-      res.status(401).json({ message: 'Authentication required.' });
-      return;
+    const accessToken = request.cookies['access-token'];
+
+    if (!accessToken) {
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     try {
-      const decodedToken = jwt.verify(token, this.config.jwtSecret);
-      req.user = decodedToken;
-
-      next();
-    } catch (err) {
-      res.status(401).json({ message: 'Authentication failed.' });
+      const decodedToken = jwService.decode(accessToken);
+      request.user = decodedToken;
+      return true;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid credentials');
     }
   }
 }

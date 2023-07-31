@@ -21,14 +21,14 @@ export class SocialLoginCommand {
 }
 
 export class LocalLoginCommand {
+  readonly userId: number;
   readonly email: string;
   readonly nickname: string;
-  readonly name: string;
 
-  constructor(input: { email: string; nickname: string; name: string }) {
+  constructor(input: { userId: number; email: string; nickname: string }) {
+    this.userId = input.userId;
     this.email = input.email;
     this.nickname = input.nickname;
-    this.name = input.name;
   }
 }
 
