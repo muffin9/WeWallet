@@ -15,9 +15,9 @@ export class AuthDtoMapper {
   }
 
   public static toLocalLoginCommand(request: {
+    userId: number;
     email: string;
     nickname: string;
-    name: string;
   }) {
     return new LocalLoginCommand(request);
   }
