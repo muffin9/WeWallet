@@ -3,22 +3,17 @@ import { TransController } from './trans.controller';
 import { TransRepository } from './trans.repository';
 import { TransService } from './trans.service';
 import { MysqlModule } from '@/provider/database.module';
-import { UserService } from '@/user/user.service';
-import { UserRepository } from '@/user/user.repository';
+import { JwtAuthGuard } from '@/auth/auth.middleware';
 
 @Module({
   imports: [MysqlModule],
   controllers: [TransController],
   providers: [
     TransService,
-    UserService,
+    JwtAuthGuard,
     {
       provide: 'ITransRepository',
       useClass: TransRepository,
-    },
-    {
-      provide: 'IUserRepository',
-      useClass: UserRepository,
     },
   ],
 })
