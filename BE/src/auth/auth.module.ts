@@ -7,8 +7,6 @@ import { AuthService } from './auth.service';
 import { JwtTokenService } from './strategies/jwt.strategy';
 import { SessionStore } from './session/session.store';
 import { SessionRepository } from './session/session.repository';
-import { JwtAuthGuard } from './auth.middleware';
-import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [UserModule, MysqlModule],
@@ -30,10 +28,6 @@ import { APP_GUARD } from '@nestjs/core';
     {
       provide: 'ISessionRepository',
       useClass: SessionRepository,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
     },
   ],
 })
