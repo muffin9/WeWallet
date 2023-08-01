@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
   LocalLoginCommand,
-  RestoreAccessTokenComamnd,
   SessionUseCase,
   SocialLoginCommand,
 } from './usecase/login.usecase';
 import { TokenService } from '@/token/token.service';
 import { ISessionStore } from './session/session.store.interface';
+import { RestoreAccessTokenComamnd } from './command/restore.access.token.command';
 
 @Injectable()
 export class AuthService implements SessionUseCase {
@@ -22,8 +22,8 @@ export class AuthService implements SessionUseCase {
     throw new Error('Method not implemented.');
   }
   async restoreAccessToken(command: RestoreAccessTokenComamnd) {
-    const { nickname, email } = command;
-    const payload = { nickname, email };
+    const { userId, nickname, email } = command;
+    const payload = { userId, nickname, email };
     const accessTokenJwt = await this.tokenService.createAccessToken(payload);
     return accessTokenJwt;
   }

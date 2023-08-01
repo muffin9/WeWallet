@@ -5,6 +5,9 @@ import { ConfigType } from '@nestjs/config';
 import databaseConfig from '@/config/database.config';
 import { User } from '@/entities/user.entity';
 import { SessionEntity } from '@/auth/session/session.entity';
+import { Category } from '@/entities/category.entity';
+import { SubCategory } from '@/entities/subCategory.entity';
+import { Transaction } from '@/entities/transaction.entity';
 
 export const mysqlProvider = {
   inject: [databaseConfig.KEY],
@@ -17,7 +20,7 @@ export const mysqlProvider = {
       username: config.database.username,
       password: config.database.password,
       database: config.database.db,
-      entities: [User, SessionEntity],
+      entities: [User, SessionEntity, Transaction, Category, SubCategory],
       namingStrategy: new SnakeNamingStrategy(),
       logging: true,
       synchronize: config.database.synchronize,

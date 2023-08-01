@@ -1,12 +1,14 @@
-import { SVGIcon } from '@/components/atoms/Icon';
+import { CategoryType } from '@/types/category';
 
 type SizeType = 'small' | 'medium' | 'large';
 
 interface GridContentAreaProps {
   title: string;
   size?: SizeType;
-  values: { [key: string]: { name: string; imagePath: string[] } };
-  onClick: (key: string) => void;
+  values: {
+    [key: string]: CategoryType;
+  }[];
+  onClick: (clickId: number) => void;
 }
 
 const calculatedSize = (size: SizeType) => {
@@ -27,20 +29,21 @@ const GridContentArea = ({
 }: GridContentAreaProps) => {
   return (
     <div className={`${calculatedSize(size)} grid`}>
-      {Object.entries(values).map(([key, value]) => (
+      {values.map(({ category }) => (
         <>
           <div
             className="flex flex-col items-center flex-wrap gap-y-2 cursor-pointer"
-            key={key}
-            onClick={() => onClick(key)}
+            key={category.category_id}
+            onClick={() => onClick(category.category_id)}
           >
-            <SVGIcon
+            <img
               width={32}
               height={32}
-              variant="default"
-              d={value.imagePath}
+              src={`${process.env.API_URL}/${category.category_image_url}`}
             />
-            <span className="text-xs text-success">{value.name}</span>
+            <span className="text-xs text-success">
+              {category.category_name}
+            </span>
           </div>
         </>
       ))}
