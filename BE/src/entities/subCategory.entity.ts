@@ -15,7 +15,7 @@ export class SubCategory {
   @Column()
   name: string;
 
-  @ManyToOne(() => Category, { nullable: true })
+  @ManyToOne(() => Category, (category) => category.id)
   @JoinColumn({ name: 'category_id' })
   category: Category;
 }

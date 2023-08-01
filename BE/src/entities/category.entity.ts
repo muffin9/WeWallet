@@ -10,4 +10,12 @@ export class Category {
 
   @Column()
   image_url: string;
+
+  public toModel() {
+    return {
+      id: this.id,
+      name: this.name,
+      image_url: this.image_url,
+    };
+  }
 }

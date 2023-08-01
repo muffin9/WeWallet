@@ -7,6 +7,8 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { Category } from './category.entity';
+import { SubCategory } from './subCategory.entity';
 
 export enum TransactionType {
   Income,
@@ -64,15 +66,15 @@ export class Transaction {
   @Column()
   is_fixed: boolean;
 
-  @ManyToOne(() => User, { nullable: true })
+  @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  // @ManyToOne(() => Category, { nullable: true })
-  // @JoinColumn({ name: 'category_id' })
-  // category: Category;
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 
-  // @ManyToOne(() => SubCategory, { nullable: true })
-  // @JoinColumn({ name: 'subCategory_id' })
-  // subCategory: SubCategory;
+  @ManyToOne(() => SubCategory)
+  @JoinColumn({ name: 'subCategory_id' })
+  subCategory: SubCategory;
 }

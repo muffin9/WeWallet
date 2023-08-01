@@ -23,9 +23,11 @@ export class AuthDtoMapper {
   }
 
   public static toAccessTokenRestoreCommand(
-    request: Request & { user: { email: string; nickname: string } },
+    request: Request & {
+      user: { userId: number; email: string; nickname: string };
+    },
   ) {
-    const { email, nickname } = request.user;
-    return new RestoreAccessTokenComamnd(email, nickname);
+    const { userId, email, nickname } = request.user;
+    return new RestoreAccessTokenComamnd(userId, email, nickname);
   }
 }

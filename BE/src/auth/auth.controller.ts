@@ -46,7 +46,7 @@ export class AuthController {
   async restoreAccessToken(
     @Req()
     req: Request & {
-      user: { email: string; nickname: string; userId: string };
+      user: { userId: number; email: string; nickname: string };
     },
     @Res() res: Response,
   ) {
