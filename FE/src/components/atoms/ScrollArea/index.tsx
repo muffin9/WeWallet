@@ -1,5 +1,5 @@
 import { SubCategoryType } from '@/types/category';
-import { PaymentType } from '@/types/payment';
+import { PaymentIdType, PaymentType } from '@/types/payment';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 type ValueType = PaymentType | SubCategoryType;
@@ -7,11 +7,10 @@ type ValueType = PaymentType | SubCategoryType;
 interface ScrollAreaProps {
   title: string;
   values: ValueType[];
-  onClick: (value: number) => void;
+  onClick: (value: number | PaymentIdType) => void;
 }
 
 const ScrollArea = ({ title, values, onClick }: ScrollAreaProps) => {
-  console.log(values);
   return (
     <ScrollAreaPrimitive.Root className="w-full h-full rounded overflow-hidden shadow-[0_2px_10px] bg-white">
       <ScrollAreaPrimitive.Viewport className="w-full h-full rounded">
