@@ -31,9 +31,6 @@ export class TransController {
   ) {
     const { userId } = req.user as LocalUserTypeResponse;
 
-    const { status } = await this.transService.postTrans(
-      requestTransAction,
-      userId,
-    );
+    return await this.transService.postTrans(requestTransAction, userId);
   }
 }

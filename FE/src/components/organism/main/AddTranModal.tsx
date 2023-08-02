@@ -10,10 +10,11 @@ import ClickSelectBox from '@/components/molecule/ClickSelectBox';
 import GridContentArea from '@/components/molecule/GridContentArea';
 import PriceInput from '@/components/molecule/PriceInput';
 import { Calendar } from '@/components/shadcn/Calendar';
-import { Categories, PaymentMethods, TransType } from '@/constants/util';
+import { PaymentArr, PaymentMethods, TransType } from '@/constants/util';
+import useCategory from '@/hooks/Category/useCategory';
 import useTransAction from '@/hooks/TransAction/useTransAction';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { use, useState, useTransition } from 'react';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -24,8 +25,8 @@ interface AddTranModalProps {
 export type TypeTransactions = {
   price: string;
   type: string;
-  category: string | undefined;
-  subCategory: string | undefined;
+  categoryId: number;
+  subCategoryId: number;
   account: string | undefined;
   paymentMethod: string | undefined;
   date: Date;
@@ -36,10 +37,12 @@ export type TypeTransactions = {
 const validationSchema = yup.object().shape({
   price: yup.string().required('금액을 입력해주세요.'),
   type: yup.string().required('수입/지출/이체를 선택해주세요.'),
-  category: yup.string(),
-  subCategory: yup.string(),
+  categoryId: yup.number().required(),
+  subCategoryId: yup.number().required(),
   account: yup.string(),
-  paymentMethod: yup.string(),
+  paymentMethod: yup
+    .string()
+    .oneOf(Object.values(PaymentArr), '유효한 결제 방식을 선택해주세요.'),
   date: yup.date().required('날짜를 선택해주세요.'),
   memo: yup.string(),
   isBudget: yup.boolean().required('예산여부를 선택해주세요.'),
@@ -49,13 +52,14 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
   const {
     control,
     handleSubmit,
+    watch,
     formState: { isDirty, isValid },
   } = useForm({
     defaultValues: {
       price: '',
-      type: 'income',
-      category: '',
-      subCategory: '',
+      type: 'INCOME',
+      categoryId: 0,
+      subCategoryId: 0,
       account: '',
       paymentMethod: '',
       date: new Date(),
@@ -67,6 +71,7 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
   });
 
   const { fetchPostTransAction } = useTransAction();
+  const { allCategoriesData } = useCategory();
 
   const [bottomPopupType, setBottomPopupType] = useState('');
 
@@ -124,14 +129,22 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
           />
           <Controller
             control={control}
-            name="category"
+            name="categoryId"
             render={({ field }) => (
               <ClickSelectBox
                 id={field.name}
                 name={'카테고리'}
               >
                 <ClickBox
-                  placeholder="미분류"
+                  placeholder={
+                    // 더 좋은방법 없을까 ? 코드가 위험하다.. view와 data의 분리가 필요하다.
+                    `${
+                      field.value === 0
+                        ? '미분류'
+                        : allCategoriesData[field.value - 1].category
+                            .category_name
+                    }`
+                  }
                   callbackFunc={() => togglePopup('category')}
                 />
                 {bottomPopupType === 'category' && (
@@ -142,16 +155,40 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                     <GridContentArea
                       title="Category"
                       size="small"
-                      values={Categories}
-                      onClick={(key) => {
-                        field.onChange(key);
-                        togglePopup('');
+                      values={allCategoriesData}
+                      onClick={(clickId: number) => {
+                        field.onChange(clickId);
+                        togglePopup('subCategory');
                       }}
                     />
                   </BottomPopup>
                 )}
               </ClickSelectBox>
             )}
+          />
+
+          <Controller
+            control={control}
+            name="subCategoryId"
+            render={({ field }) => {
+              return bottomPopupType === 'subCategory' ? (
+                <BottomPopup closePopup={() => togglePopup('')}>
+                  <ScrollArea
+                    title="서브 카테고리"
+                    values={
+                      allCategoriesData[watch('categoryId') - 1].category
+                        .subCategory
+                    }
+                    onClick={(key) => {
+                      field.onChange(key);
+                      togglePopup('');
+                    }}
+                  />
+                </BottomPopup>
+              ) : (
+                <div></div>
+              );
+            }}
           />
           <Controller
             control={control}
@@ -162,7 +199,7 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 name="거래처"
               >
                 <ClickBox
-                  placeholder="입력하세요"
+                  placeholder={field.value || '입력하세요'}
                   callbackFunc={() => togglePopup('account')}
                 />
                 {bottomPopupType === 'account' && (
@@ -191,7 +228,7 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 name="결제 수단"
               >
                 <ClickBox
-                  placeholder="선택하세요"
+                  placeholder={field.value || '선택하세요'}
                   callbackFunc={() => togglePopup('paymentMethod')}
                 />
                 {bottomPopupType === 'paymentMethod' && (
@@ -199,8 +236,8 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                     <ScrollArea
                       title="결제수단"
                       values={PaymentMethods}
-                      onClick={(key) => {
-                        field.onChange(key);
+                      onClick={(clickId) => {
+                        field.onChange(clickId);
                         togglePopup('');
                       }}
                     />
@@ -247,7 +284,7 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 name="메모"
               >
                 <ClickBox
-                  placeholder="입력하세요"
+                  placeholder={field.value || '입력하세요'}
                   callbackFunc={() => togglePopup('memo')}
                 />
                 {bottomPopupType === 'memo' && (

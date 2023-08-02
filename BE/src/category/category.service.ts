@@ -1,11 +1,15 @@
 import { Inject } from '@nestjs/common';
 import { ICategoryRepository } from './category.repository';
 import { CombinedDataParams } from './interface/category';
+import { ISubCategoryRepository } from '@/subCategory/subCategory.repository';
+import { CATEGORY_STATUS } from '@/utils/status';
 
 export class CategoryService {
   constructor(
     @Inject('ICategoryRepository')
     private readonly categoryRepository: ICategoryRepository,
+    @Inject('ISubCategoryRepository')
+    private readonly subCategoryRepository: ISubCategoryRepository,
   ) {}
 
   private combineData(categories, subCategories) {
@@ -16,6 +20,7 @@ export class CategoryService {
         category: {
           category_id: category.category_id,
           category_name: category.category_name,
+          category_image_url: category.category_image_url,
           subCategory: [],
         },
       };
@@ -35,9 +40,16 @@ export class CategoryService {
     return combinedData;
   }
 
-  async getAllCategory(): Promise<CombinedDataParams[]> {
+  async getAllCategory(): Promise<{
+    status: string;
+    data: CombinedDataParams[];
+  }> {
     const categories = await this.categoryRepository.getCategory();
-    const subCategories = await this.categoryRepository.getSubCategory();
-    return this.combineData(categories, subCategories);
+    const subCategories = await this.subCategoryRepository.getSubCategory();
+
+    return {
+      status: CATEGORY_STATUS.CATEGORY_ALL_GET_SUCCESS,
+      data: this.combineData(categories, subCategories),
+    };
   }
 }
