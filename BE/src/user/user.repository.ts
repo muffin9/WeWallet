@@ -6,13 +6,14 @@ import {
   signupUserTypeRequest,
   signupUserTypeResponse,
 } from './interface/signup';
-import { USER_STATUS } from './interface/status';
+import { USER_STATUS } from '@/utils/status';
 import { loginUserTypeRequest, loginUserTypeResponse } from './interface/login';
 import { transformPassword, validatePassword } from './user.util';
 
 export interface IUserRepository {
   getUserByUserEmail(email: string): Promise<UserModel>;
   findAll: () => Promise<User[]>;
+  findOne: (userId: number) => Promise<User>;
   signupUser: (user: signupUserTypeRequest) => Promise<signupUserTypeResponse>;
   login: (user: loginUserTypeRequest) => Promise<loginUserTypeResponse>;
 }
@@ -29,6 +30,13 @@ export class UserRepository implements IUserRepository {
       .createQueryBuilder(User, 'user')
       .getMany();
     return users;
+  }
+
+  async findOne(userId: number) {
+    return await this.dataSource
+      .createQueryBuilder(User, 'user')
+      .where('user.id = :userId', { userId })
+      .getOne();
   }
 
   async getUserByUserEmail(email: string) {

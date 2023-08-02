@@ -1,11 +1,10 @@
 import { Category } from '@/entities/category.entity';
-import { SubCategory } from '@/entities/subCategory.entity';
 import { Inject } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 
 export interface ICategoryRepository {
   getCategory: () => Promise<Category[]>;
-  getSubCategory: () => Promise<SubCategory[]>;
+  findOne: (userId: number) => Promise<Category>;
 }
 
 export class CategoryRepository implements ICategoryRepository {
@@ -20,9 +19,10 @@ export class CategoryRepository implements ICategoryRepository {
       .getRawMany();
   }
 
-  async getSubCategory() {
+  async findOne(categoryId: number) {
     return await this.dataSource
-      .createQueryBuilder(SubCategory, 'subCategory')
-      .getRawMany();
+      .createQueryBuilder(Category, 'category')
+      .where('category.id = :categoryId', { categoryId })
+      .getOne();
   }
 }

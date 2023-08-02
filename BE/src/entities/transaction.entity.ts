@@ -11,16 +11,20 @@ import { Category } from './category.entity';
 import { SubCategory } from './subCategory.entity';
 
 export enum TransactionType {
-  Income,
-  Expenditure,
-  Transfer,
+  INCOME = 'INCOME',
+  EXPENDITURE = 'EXPENDITURE',
+  TRANSFER = 'TRANSFER',
 }
 
 export enum PaymentMethodType {
-  Cash,
-  CheckCard,
-  CreditCard,
-  KakaoPay,
+  CASH = 'CASH',
+  CREDIT_CARD = 'CREDIT_CARD',
+  CHECK_CARD = 'CHECK_CARD',
+  KAKAO_PAY = 'KAKAO_PAY',
+  TOSS = 'TOSS',
+  PAYCO = 'PAYCO',
+  POINT = 'POINT',
+  ETC = 'ETC',
 }
 
 @Entity()
@@ -31,7 +35,7 @@ export class Transaction {
   @Column({
     type: 'enum',
     enum: TransactionType,
-    default: TransactionType.Expenditure,
+    default: TransactionType.EXPENDITURE,
   })
   type: TransactionType;
 
@@ -45,10 +49,13 @@ export class Transaction {
   @Column({
     type: 'enum',
     enum: PaymentMethodType,
-    default: PaymentMethodType.CheckCard,
+    default: PaymentMethodType.CHECK_CARD,
   })
   @IsOptional()
   payment_method: string;
+
+  @Column()
+  date: Date;
 
   @Column()
   @IsOptional()
