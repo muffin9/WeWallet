@@ -10,7 +10,7 @@ import ClickSelectBox from '@/components/molecule/ClickSelectBox';
 import GridContentArea from '@/components/molecule/GridContentArea';
 import PriceInput from '@/components/molecule/PriceInput';
 import { Calendar } from '@/components/shadcn/Calendar';
-import { PaymentMethods, TransType } from '@/constants/util';
+import { PaymentArr, PaymentMethods, TransType } from '@/constants/util';
 import useCategory from '@/hooks/Category/useCategory';
 import useTransAction from '@/hooks/TransAction/useTransAction';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -28,7 +28,7 @@ export type TypeTransactions = {
   categoryId: number;
   subCategoryId: number;
   account: string | undefined;
-  paymentMethod: number;
+  paymentMethod: string | undefined;
   date: Date;
   memo: string | undefined;
   isBudget: boolean;
@@ -40,7 +40,9 @@ const validationSchema = yup.object().shape({
   categoryId: yup.number().required(),
   subCategoryId: yup.number().required(),
   account: yup.string(),
-  paymentMethod: yup.number().required(),
+  paymentMethod: yup
+    .string()
+    .oneOf(Object.values(PaymentArr), '유효한 결제 방식을 선택해주세요.'),
   date: yup.date().required('날짜를 선택해주세요.'),
   memo: yup.string(),
   isBudget: yup.boolean().required('예산여부를 선택해주세요.'),
@@ -55,11 +57,11 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
   } = useForm({
     defaultValues: {
       price: '',
-      type: 'income',
+      type: 'INCOME',
       categoryId: 0,
       subCategoryId: 0,
       account: '',
-      paymentMethod: 0,
+      paymentMethod: '',
       date: new Date(),
       memo: '',
       isBudget: false,
@@ -226,11 +228,7 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 name="결제 수단"
               >
                 <ClickBox
-                  placeholder={
-                    field.value === 0
-                      ? '선택하세요'
-                      : PaymentMethods[field.value - 1].name
-                  }
+                  placeholder={field.value || '선택하세요'}
                   callbackFunc={() => togglePopup('paymentMethod')}
                 />
                 {bottomPopupType === 'paymentMethod' && (
@@ -238,7 +236,7 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                     <ScrollArea
                       title="결제수단"
                       values={PaymentMethods}
-                      onClick={(clickId: number) => {
+                      onClick={(clickId) => {
                         field.onChange(clickId);
                         togglePopup('');
                       }}
