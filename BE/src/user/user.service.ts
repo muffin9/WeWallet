@@ -14,6 +14,8 @@ export class UserService {
     return this.userRepository.findAll();
   }
 
+  findOne: (userId: number) => Promise<User>;
+
   getUserbyEmail(email: string): Promise<UserModel> {
     return this.userRepository.getUserByUserEmail(email);
   }

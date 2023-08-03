@@ -1,12 +1,10 @@
-import { SubCategoryType } from '@/types/category';
-import { PaymentIdType, PaymentType } from '@/types/payment';
+import { PaymentIdType } from '@/types/payment';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-
-type ValueType = PaymentType | SubCategoryType;
+import { KeyedObject } from '@/types/common';
 
 interface ScrollAreaProps {
   title: string;
-  values: ValueType[];
+  values: KeyedObject[];
   onClick: (value: number | PaymentIdType) => void;
 }
 
@@ -19,16 +17,13 @@ const ScrollArea = ({ title, values, onClick }: ScrollAreaProps) => {
             {title}
           </div>
           {values.map((value) => {
-            const id = 'id' in value ? value.id : value.subCategory_id;
-            const name = 'name' in value ? value.name : value.subCategory_name;
-
             return (
               <div
                 className="text-mauve12 text-[13px] leading-[18px] mt-2.5 pt-2.5 border-t border-t-mauve6 cursor-pointer"
-                key={id}
-                onClick={() => onClick(id)}
+                key={value.id}
+                onClick={() => onClick(value.id)}
               >
-                {name}
+                {value.name}
               </div>
             );
           })}

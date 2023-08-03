@@ -7,7 +7,10 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get('/all')
-  async getAllCategory(): Promise<CombinedDataParams[]> {
+  async getAllCategory(): Promise<{
+    status: string;
+    data: CombinedDataParams[];
+  }> {
     return await this.categoryService.getAllCategory();
   }
 }

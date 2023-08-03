@@ -11,7 +11,7 @@ import { UserService } from './user.service';
 import { User } from '@/entities/user.entity';
 import { signupUserTypeRequest } from './interface/signup';
 import { Response } from 'express';
-import { USER_STATUS } from './interface/status';
+import { USER_STATUS } from '@/utils/status';
 import { SessionUseCase } from '@/auth/usecase/login.usecase';
 import { AuthDtoMapper } from '@/auth/interface/auth.dto.mapper';
 import { loginUserTypeRequest } from './interface/login';
