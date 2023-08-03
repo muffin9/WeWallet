@@ -13,6 +13,7 @@ import { Calendar } from '@/components/shadcn/Calendar';
 import { PaymentArr, PaymentMethods, TransType } from '@/constants/util';
 import useCategory from '@/hooks/Category/useCategory';
 import useTransAction from '@/hooks/TransAction/useTransAction';
+import { setObjectKeys } from '@/utils/util';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -81,6 +82,7 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
 
   const onSubmit = (data: TypeTransactions) => {
     fetchPostTransAction.mutate(data);
+    onCloseModal();
   };
 
   return (
@@ -175,10 +177,11 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 <BottomPopup closePopup={() => togglePopup('')}>
                   <ScrollArea
                     title="서브 카테고리"
-                    values={
+                    values={setObjectKeys(
                       allCategoriesData[watch('categoryId') - 1].category
-                        .subCategory
-                    }
+                        .subCategory,
+                      ['id', 'name'],
+                    )}
                     onClick={(key) => {
                       field.onChange(key);
                       togglePopup('');
@@ -235,7 +238,7 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                   <BottomPopup closePopup={() => togglePopup('')}>
                     <ScrollArea
                       title="결제수단"
-                      values={PaymentMethods}
+                      values={setObjectKeys(PaymentMethods, ['id', 'name'])}
                       onClick={(clickId) => {
                         field.onChange(clickId);
                         togglePopup('');
