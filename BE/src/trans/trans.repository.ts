@@ -11,6 +11,7 @@ import { SubCategory } from '@/entities/subCategory.entity';
 import { TRANS_STATUS } from '@/utils/status';
 
 export interface ITransRepository {
+  getTrans: (month: number) => Promise<Transaction[]>;
   postTrans: (
     transActionTypeRequest: transActionTypeRequest,
     user: User,
@@ -26,13 +27,19 @@ export class TransRepository implements ITransRepository {
     private readonly dataSource: DataSource,
   ) {}
 
+  async getTrans(month: number) {
+    return this.dataSource
+      .createQueryBuilder(Transaction, 'transaction')
+      .where('MONTH(transaction.date) = :month', { month })
+      .getMany();
+  }
+
   async postTrans(
     data: transActionTypeRequest,
     user: User,
     category: Category,
     subCategory: SubCategory,
   ) {
-    console.log(data);
     const newTransAction = await this.dataSource
       .createQueryBuilder()
       .insert()
