@@ -1,5 +1,6 @@
 export const TRANS_STATUS = {
-  TRANSACTION_POST_SUCCESS: 'T-200',
+  TRANSACTION_GET_SUCCESS: 'T-G-200',
+  TRANSACTION_POST_SUCCESS: 'T-P-200',
 } as const;
 
 export const USER_STATUS = {

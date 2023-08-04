@@ -13,6 +13,8 @@ import { Calendar } from '@/components/shadcn/Calendar';
 import { PaymentArr, PaymentMethods, TransType } from '@/constants/util';
 import useCategory from '@/hooks/Category/useCategory';
 import useTransAction from '@/hooks/TransAction/useTransAction';
+import { SubCategoryType } from '@/types/category';
+import { setObjectKeys } from '@/utils/util';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -81,6 +83,20 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
 
   const onSubmit = (data: TypeTransactions) => {
     fetchPostTransAction.mutate(data);
+    onCloseModal();
+  };
+
+  const calculatedValue = (categoryId: number) => {
+    const categoryName =
+      allCategoriesData[categoryId - 1].category.category_name;
+
+    const subCategory = allCategoriesData[categoryId - 1]?.category.subCategory;
+
+    const subCategoryName = subCategory.find(
+      (sub: SubCategoryType) => sub.subCategory_id === watch('subCategoryId'),
+    )?.subCategory_name;
+
+    return `${categoryName}-${subCategoryName || '미분류'}`;
   };
 
   return (
@@ -136,15 +152,9 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 name={'카테고리'}
               >
                 <ClickBox
-                  placeholder={
-                    // 더 좋은방법 없을까 ? 코드가 위험하다.. view와 data의 분리가 필요하다.
-                    `${
-                      field.value === 0
-                        ? '미분류'
-                        : allCategoriesData[field.value - 1].category
-                            .category_name
-                    }`
-                  }
+                  placeholder={`${
+                    field.value === 0 ? '미분류' : calculatedValue(field.value)
+                  }`}
                   callbackFunc={() => togglePopup('category')}
                 />
                 {bottomPopupType === 'category' && (
@@ -175,10 +185,11 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 <BottomPopup closePopup={() => togglePopup('')}>
                   <ScrollArea
                     title="서브 카테고리"
-                    values={
+                    values={setObjectKeys(
                       allCategoriesData[watch('categoryId') - 1].category
-                        .subCategory
-                    }
+                        .subCategory,
+                      ['id', 'name'],
+                    )}
                     onClick={(key) => {
                       field.onChange(key);
                       togglePopup('');
@@ -228,14 +239,17 @@ const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
                 name="결제 수단"
               >
                 <ClickBox
-                  placeholder={field.value || '선택하세요'}
+                  placeholder={
+                    PaymentMethods.find((payment) => payment.id === field.value)
+                      ?.name || '선택하세요'
+                  }
                   callbackFunc={() => togglePopup('paymentMethod')}
                 />
                 {bottomPopupType === 'paymentMethod' && (
                   <BottomPopup closePopup={() => togglePopup('')}>
                     <ScrollArea
                       title="결제수단"
-                      values={PaymentMethods}
+                      values={setObjectKeys(PaymentMethods, ['id', 'name'])}
                       onClick={(clickId) => {
                         field.onChange(clickId);
                         togglePopup('');
