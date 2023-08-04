@@ -2,14 +2,20 @@ import Button from '@/components/atoms/Button';
 import SelectDate from '@/components/molecule/SelectDate';
 import { useRouter } from 'next/router';
 
-const DateInput = () => {
+interface DateInputProps {
+  month: number;
+  setMonth: (month: number) => void;
+}
+
+const DateInput = ({ month, setMonth }: DateInputProps) => {
   const router = useRouter();
-  const month = 8;
   const prevClick = () => {
-    console.log('clicked prev result : 7');
+    if (month === 1) return;
+    setMonth(month - 1);
   };
   const nextClick = () => {
-    console.log('clicked next result : 9');
+    if (month === 12) return;
+    setMonth(month + 1);
   };
 
   return (
