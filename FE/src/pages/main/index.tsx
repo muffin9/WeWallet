@@ -79,7 +79,7 @@ const main = ({ accessToken, refreshToken }: mainProps) => {
         </div>
       </div>
       <div className="flex justify-center items-center">
-        <Calendar />
+        {transActionData && <Calendar price={transActionData.date} />}
       </div>
     </section>
   );
