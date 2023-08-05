@@ -1,13 +1,15 @@
 import Button from '@/components/atoms/Button';
 import BudgetText from '@/components/molecule/BudgetText';
-import AddTranModal from './AddTranModal';
+import AddTranModal from './main/AddTranModal';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 interface TransSectionProps {
   price: { INCOME: number; EXPENDITURE: number };
 }
 
 const TransSection = ({ price }: TransSectionProps) => {
+  const router = useRouter();
   const [isShowModal, setIsShowModal] = useState(false);
   const toggleModal = () => {
     setIsShowModal(!isShowModal);
@@ -24,6 +26,7 @@ const TransSection = ({ price }: TransSectionProps) => {
           size="small"
           text="분석"
           className="rounded-md text-xs"
+          onClick={() => router.push('/analysis')}
         />
         <Button
           variant="primary"

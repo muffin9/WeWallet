@@ -1,10 +1,11 @@
 import useGetTransAction from '@/hooks/TransAction/useGetTransAction';
 import { nowDate } from '@/utils/date';
 import { useState } from 'react';
-import DateInput from './main/DateInput';
-import TransSection from './main/TransSection';
+import DateInput from './DateInput';
+import TransSection from './TransSection';
 import { Calendar } from '../shadcn/Calendar';
 import LoadingSpinner from '../atoms/LoadingSpinner';
+import Info from './budget/Info';
 
 interface WalletSectionProps {
   currentPage: string;
@@ -36,7 +37,7 @@ const WalletSection = ({ currentPage }: WalletSectionProps) => {
         {currentPage === 'main' && transActionData && (
           <Calendar price={transActionData.date} />
         )}
-        {currentPage === 'budget' && <div>예산 WIPS</div>}
+        {currentPage === 'budget' && <Info month={month} />}
       </div>
     </div>
   );
