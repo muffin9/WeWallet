@@ -7,6 +7,7 @@ import { healthCheckController } from '@/healthCheck.controller';
 import { MysqlModule } from '@/provider/database.module';
 import { TransModule } from './trans/trans.module';
 import { CategoryModule } from './category/category.module';
+import { BudgetModule } from './budget/budget.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { CategoryModule } from './category/category.module';
     UserModule,
     CategoryModule,
     TransModule,
+    BudgetModule,
     ConfigModule.forRoot({ ...configModuleOptions }),
   ],
   controllers: [healthCheckController],

@@ -7,12 +7,6 @@ const useTransAction = () => {
   const setType = useModalStore((state) => state.setType);
   const toggleModal = useModalStore((state) => state.toggleModal);
 
-  const { data: transActionData, refetch: refetchTransAction } = useQuery(
-    ['transAction'],
-    () => getTransAction(),
-    { enabled: false },
-  );
-
   const fetchPostTransAction = useMutation(postTransAction, {
     onSuccess: ({ status }) => {
       if (status === TRANSACTION_POST_SUCCESS) {
@@ -22,7 +16,7 @@ const useTransAction = () => {
     },
   });
 
-  return { transActionData, refetchTransAction, fetchPostTransAction };
+  return { fetchPostTransAction };
 };
 
 export default useTransAction;

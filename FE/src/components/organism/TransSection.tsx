@@ -1,9 +1,15 @@
 import Button from '@/components/atoms/Button';
 import BudgetText from '@/components/molecule/BudgetText';
-import AddTranModal from './AddTranModal';
+import AddTranModal from './main/AddTranModal';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
-const TransSection = () => {
+interface TransSectionProps {
+  price: { INCOME: number; EXPENDITURE: number };
+}
+
+const TransSection = ({ price }: TransSectionProps) => {
+  const router = useRouter();
   const [isShowModal, setIsShowModal] = useState(false);
   const toggleModal = () => {
     setIsShowModal(!isShowModal);
@@ -12,14 +18,15 @@ const TransSection = () => {
   return (
     <>
       <BudgetText
-        income={1000}
-        expenditure={1000}
+        income={price.INCOME}
+        expenditure={price.EXPENDITURE}
       />
       <div className="flex gap-x-4">
         <Button
           size="small"
           text="분석"
           className="rounded-md text-xs"
+          onClick={() => router.push('/analysis')}
         />
         <Button
           variant="primary"

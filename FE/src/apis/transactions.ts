@@ -1,9 +1,11 @@
 import { TypeTransactions } from '@/components/organism/main/AddTranModal';
 import axios from 'axios';
 
-export const getTransAction = async () => {
+export const getTransAction = async (month: number) => {
   try {
-    const response = await axios.get(`${process.env.API_URL}/transaction`);
+    const response = await axios.get(
+      `${process.env.API_URL}/transaction?month=${month}`,
+    );
 
     return response.data;
   } catch (err) {
