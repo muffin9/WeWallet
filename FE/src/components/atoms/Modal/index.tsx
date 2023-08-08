@@ -6,6 +6,7 @@ interface ModalProps {
   children: React.ReactNode;
   size: SizeType;
   onCloseModal: () => void;
+  className?: string;
 }
 
 const calculatedSizeClasses = (size: SizeType) => {
@@ -25,7 +26,13 @@ const calculatedSizeClasses = (size: SizeType) => {
   }
 };
 
-const Modal = ({ children, size, onCloseModal, ...restProps }: ModalProps) => {
+const Modal = ({
+  children,
+  size,
+  onCloseModal,
+  className,
+  ...restProps
+}: ModalProps) => {
   const sizeClass = calculatedSizeClasses(size);
 
   return ReactDom.createPortal(
@@ -35,7 +42,7 @@ const Modal = ({ children, size, onCloseModal, ...restProps }: ModalProps) => {
         onClick={onCloseModal}
       />
       <section
-        className={`${sizeClass} flex flex-col items-center gap-y-2 fixed top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] rounded-lg z-[999] bg-white font-pretendard`}
+        className={`${sizeClass} flex flex-col items-center gap-y-2 fixed top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] rounded-lg z-[999] bg-white font-pretendard ${className}`}
         {...restProps}
       >
         {children}

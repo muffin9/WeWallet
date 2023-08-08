@@ -5,3 +5,5 @@ export const USER_LOGIN_SUCCESS = 'U-L-200';
 export const TRANSACTION_POST_SUCCESS = 'T-P-200';
 export const CATEGORY_ALL_GET_SUCCESS = 'C-A-200';
 export const BUDGET_GET_SUCCESS = 'B-G-200';
+export const BUDGET_POST_SUCCESS = 'B-P-200';
+export const BUDGET_PATCH_SUCCESS = 'B-PT-200';
