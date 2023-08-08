@@ -4,6 +4,7 @@ import { BudgetRepository } from './budget.repository';
 import { UserRepository } from '@/user/user.repository';
 import { BudgetService } from './budget.service';
 import { MysqlModule } from '@/provider/database.module';
+import { TransRepository } from '@/trans/trans.repository';
 @Module({
   imports: [MysqlModule],
   controllers: [BudgetController],
@@ -17,6 +18,7 @@ import { MysqlModule } from '@/provider/database.module';
       provide: 'IUserRepository',
       useClass: UserRepository,
     },
+    { provide: 'ITransRepository', useClass: TransRepository },
   ],
 })
 export class BudgetModule {}

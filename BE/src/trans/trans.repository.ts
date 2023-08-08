@@ -4,14 +4,18 @@ import {
   transActionTypeResponse,
 } from './interface/transaction';
 import { DataSource } from 'typeorm';
-import { Transaction } from '@/entities/transaction.entity';
+import { Transaction, TransactionType } from '@/entities/transaction.entity';
 import { User } from '@/entities/user.entity';
 import { Category } from '@/entities/category.entity';
 import { SubCategory } from '@/entities/subCategory.entity';
 import { TRANS_STATUS } from '@/utils/status';
 
 export interface ITransRepository {
-  getTrans: (month: number, user: User) => Promise<Transaction[]>;
+  getTrans: (
+    month: number,
+    user: User,
+    type?: TransactionType,
+  ) => Promise<Transaction[]>;
   postTrans: (
     transActionTypeRequest: transActionTypeRequest,
     user: User,
@@ -27,12 +31,17 @@ export class TransRepository implements ITransRepository {
     private readonly dataSource: DataSource,
   ) {}
 
-  async getTrans(month: number, user: User) {
-    return this.dataSource
+  async getTrans(month: number, user: User, type?: TransactionType) {
+    const query = this.dataSource
       .createQueryBuilder(Transaction, 'transaction')
       .where('MONTH(transaction.date) = :month', { month })
-      .andWhere('transaction.user_id = :user_id', { user_id: user.id })
-      .getMany();
+      .andWhere('transaction.user_id = :user_id', { user_id: user.id });
+
+    if (type) {
+      query.andWhere('transaction.type = :type', { type });
+    }
+
+    return query.getMany();
   }
 
   async postTrans(

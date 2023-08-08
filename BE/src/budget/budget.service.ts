@@ -4,7 +4,8 @@ import { IUserRepository } from '@/user/user.repository';
 import { BUDGET_STATUS } from '@/utils/status';
 import { getDaysInThisMonth } from '@/utils/date';
 import { budgetTypeRequest } from './interface/budget';
-import { User } from '@/entities/user.entity';
+import { ITransRepository } from '@/trans/trans.repository';
+import { TransactionType } from '@/entities/transaction.entity';
 
 export class BudgetService {
   constructor(
@@ -12,6 +13,8 @@ export class BudgetService {
     private readonly budgetRepository: IBudgetRepository,
     @Inject('IUserRepository')
     private readonly userRepository: IUserRepository,
+    @Inject('ITransRepository')
+    private readonly transRepository: ITransRepository,
   ) {}
 
   calculatedRecommendedSpendingPrice(totalPrice: number, usePrice: number) {
@@ -25,7 +28,7 @@ export class BudgetService {
       return remainingBudget; // 오늘이 마지막 날인 경우, 남은 예산 전체를 오늘 사용할 수 있습니다.
     }
 
-    return remainingBudget / remainingDays; // 남은 예산을 남은 일수로 나누어 하루 예산을 계산합니다.
+    return Math.floor(remainingBudget / remainingDays); // 남은 예산을 남은 일수로 나누어 하루 예산을 계산합니다.
   }
 
   async getBudgetInfo(month: number, userId: number) {
@@ -37,7 +40,15 @@ export class BudgetService {
     // dailyBudgetPrice: 하루 예산
     // RecommendedSpendingPrice: 추천 지출
     const totalPrice = budgetData?.total_price || 0;
-    const usePrice = budgetData?.use_price || 0;
+    const incomeTrans = await this.transRepository.getTrans(
+      month,
+      user,
+      TransactionType.EXPENDITURE,
+    ); // usePrice는 transAction의 EXPENDITURE
+
+    const usePrice = incomeTrans.reduce((acc, cur) => {
+      return (acc += cur.price);
+    }, 0);
 
     return {
       status: BUDGET_STATUS.BUDGET_GET_SUCCESS,
