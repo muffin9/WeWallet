@@ -1,14 +1,16 @@
 import Button from '@/components/atoms/Button';
 import SelectDate from '@/components/molecule/SelectDate';
+import useCalendarStore from '@/store/useCalendarStore';
 import { useRouter } from 'next/router';
 
 interface DateInputProps {
-  month: number;
-  setMonth: (month: number) => void;
   currentPage: string;
 }
 
-const DateInput = ({ month, setMonth, currentPage }: DateInputProps) => {
+const DateInput = ({ currentPage }: DateInputProps) => {
+  const month = useCalendarStore((state) => state.month);
+  const setMonth = useCalendarStore((state) => state.setMonth);
+
   const router = useRouter();
   const prevClick = () => {
     if (month === 1) return;

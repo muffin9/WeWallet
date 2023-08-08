@@ -6,15 +6,14 @@ import TransSection from './TransSection';
 import { Calendar } from '../shadcn/Calendar';
 import LoadingSpinner from '../atoms/LoadingSpinner';
 import Info from './budget/Info';
+import useCalendarStore from '@/store/useCalendarStore';
 
 interface WalletSectionProps {
   currentPage: string;
 }
 
 const WalletSection = ({ currentPage }: WalletSectionProps) => {
-  const [month, setMonth] = useState(nowDate().month);
-
-  const { transActionData, isLoading } = useGetTransAction(month);
+  const { transActionData, isLoading } = useGetTransAction();
 
   if (isLoading) {
     return <LoadingSpinner size="large" />;
@@ -23,11 +22,7 @@ const WalletSection = ({ currentPage }: WalletSectionProps) => {
   return (
     <div className="flex flex-col p-4">
       <div className="flex justify-between items-center">
-        <DateInput
-          month={month}
-          setMonth={setMonth}
-          currentPage={currentPage}
-        />
+        <DateInput currentPage={currentPage} />
       </div>
       <div className="flex justify-between items-center mt-8">
         {transActionData && <TransSection price={transActionData.all} />}
@@ -37,7 +32,7 @@ const WalletSection = ({ currentPage }: WalletSectionProps) => {
         {currentPage === 'main' && transActionData && (
           <Calendar price={transActionData.date} />
         )}
-        {currentPage === 'budget' && <Info month={month} />}
+        {currentPage === 'budget' && <Info />}
       </div>
     </div>
   );

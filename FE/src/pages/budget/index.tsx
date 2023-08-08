@@ -1,5 +1,5 @@
 import Header from '@/components/molecule/Header';
-import WalletSection from '@/components/organism/WaleltSection';
+import WalletSection from '@/components/organism/WalletSection';
 
 const budget = () => {
   return (
