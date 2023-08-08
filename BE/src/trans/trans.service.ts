@@ -60,8 +60,9 @@ export class TransService {
     }, {} as Record<number, { INCOME: number; EXPENDITURE: number }>);
   }
 
-  async getTrans(month: number) {
-    const transactionData = await this.transRepository.getTrans(month);
+  async getTrans(month: number, userId: number) {
+    const user = await this.userRepository.findOne(userId);
+    const transactionData = await this.transRepository.getTrans(month, user);
     const { INCOME, EXPENDITURE } = this.calculateTotalByType(transactionData);
     const DatabyDay = this.calculateDailyTotalsByType(transactionData);
 

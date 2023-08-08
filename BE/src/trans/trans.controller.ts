@@ -5,7 +5,6 @@ import {
   Post,
   Query,
   Req,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { transActionTypeRequest } from './interface/transaction';
@@ -19,12 +18,17 @@ export class TransController {
   constructor(private readonly transService: TransService) {}
 
   @Get('/')
-  getTrans(@Query('month') month: number): Promise<{
+  @UseGuards(JwtAuthGuard)
+  getTrans(
+    @Query('month') month: number,
+    @Req() req: Request,
+  ): Promise<{
     status: string;
     all: { [key: string]: number };
     date: { [key: string]: { [key: string]: number } };
   }> {
-    return this.transService.getTrans(month);
+    const { userId } = req.user as LocalUserTypeResponse;
+    return this.transService.getTrans(month, userId);
   }
 
   @Post('/')
