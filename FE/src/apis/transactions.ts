@@ -5,6 +5,7 @@ export const getTransAction = async (month: number) => {
   try {
     const response = await axios.get(
       `${process.env.API_URL}/transaction?month=${month}`,
+      { withCredentials: true },
     );
 
     return response.data;

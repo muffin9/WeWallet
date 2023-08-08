@@ -1,0 +1,54 @@
+import { Meta, Canvas, ArgsTable, Story } from "@storybook/blocks";
+import ProgressBar from "./";
+
+<Meta title="Primitive/ProgressBar" component={ProgressBar} />
+
+# ProgressBar
+
+프로젝트 내에서 사용되어지는 프로그레스바입니다.
+
+## Props
+
+```ts
+interface ProgressBarProps {
+  /**
+   * 프로그레스바의 값
+   */
+  value: number;
+  /**
+   * 프로그레스바의 최대값
+   */
+  maxValue?: number;
+  /**
+   * 프로그레스바의 내부 색상
+   */
+  innerColor?: string;
+  /**
+   * 프로그레스바의 배경 색상
+   */
+  bgColor?: string;
+  /**
+   * 프로그레스바의 값을 문자열로 표현할 때 사용되는 함수
+   */
+  getValueLabel?: (value: number, maxValue: number) => string;
+}
+```
+
+## ProgressBar Example
+
+<Canvas soutceState="shown">
+  <Story name="ProgressBar" args={{}}>
+    {(args) => {
+      return (
+        <div>
+          <ProgressBar
+            value={50}
+            maxValue={100}
+            innerColor="bg-white"
+            bgColor="bg-yellow"
+          />
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
