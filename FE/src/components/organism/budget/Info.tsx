@@ -5,7 +5,6 @@ import SettingBudget from './SettingBudget';
 import useBudget from '@/hooks/Budget/useBudget';
 import LoadingSpinner from '@/components/atoms/LoadingSpinner';
 import ProgressBar from '@/components/atoms/ProgressBar';
-import useCalendarStore from '@/store/useCalendarStore';
 
 const Info = () => {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -83,7 +82,10 @@ const Info = () => {
           onCloseModal={toggleModal}
           className="h-auto"
         >
-          <SettingBudget onCloseModal={toggleModal} />
+          <SettingBudget
+            onCloseModal={toggleModal}
+            totalPrice={totalPrice?.toString()}
+          />
         </Modal>
       )}
     </section>
