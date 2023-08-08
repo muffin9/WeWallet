@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { restoreAccessToken } from '@/apis/auth';
 import useUserStore from '@/store/useUserStore';
 import Header from '@/components/molecule/Header';
-import WalletSection from '@/components/organism/WaleltSection';
+import WalletSection from '@/components/organism/WalletSection';
 
 interface mainProps {
   accessToken: string | null;

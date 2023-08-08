@@ -1,14 +1,18 @@
 import Button from '@/components/atoms/Button';
 import PriceInput from '@/components/molecule/PriceInput';
+import useBudget from '@/hooks/Budget/useBudget';
 import usePostOrPatch from '@/hooks/Budget/usePostOrPatch';
+import useGetTransAction from '@/hooks/TransAction/useGetTransAction';
+import useCalendarStore from '@/store/useCalendarStore';
 import { Controller, useForm } from 'react-hook-form';
 
 interface SettingBudgetProps {
-  month: number;
   onCloseModal: () => void;
 }
 
-const SettingBudget = ({ month, onCloseModal }: SettingBudgetProps) => {
+const SettingBudget = ({ onCloseModal }: SettingBudgetProps) => {
+  const month = useCalendarStore((state) => state.month);
+
   const {
     control,
     handleSubmit,
@@ -22,7 +26,6 @@ const SettingBudget = ({ month, onCloseModal }: SettingBudgetProps) => {
   const onSubmit = ({ budgetPrice }: { budgetPrice: string }) => {
     const data = { month, budgetPrice: +budgetPrice };
     fetchPostOrPatchBudget.mutate(data);
-
     onCloseModal();
   };
 

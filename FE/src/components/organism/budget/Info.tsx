@@ -1,16 +1,13 @@
 import Button from '@/components/atoms/Button';
 import Modal from '@/components/atoms/Modal';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import SettingBudget from './SettingBudget';
 import useBudget from '@/hooks/Budget/useBudget';
 import LoadingSpinner from '@/components/atoms/LoadingSpinner';
 import ProgressBar from '@/components/atoms/ProgressBar';
+import useCalendarStore from '@/store/useCalendarStore';
 
-interface InfoProps {
-  month: number;
-}
-
-const Info = ({ month }: InfoProps) => {
+const Info = () => {
   const [isShowModal, setIsShowModal] = useState(false);
 
   const {
@@ -19,7 +16,13 @@ const Info = ({ month }: InfoProps) => {
     remainBudgetPrice,
     dailyBudgetPrice,
     recommendedSpendingPrice,
-  } = useBudget(month);
+  } = useBudget();
+
+  const amountSpent = useMemo(() => {
+    if (!totalPrice || !remainBudgetPrice) return 0;
+
+    return Math.floor(((totalPrice - remainBudgetPrice) / totalPrice) * 100);
+  }, [totalPrice, remainBudgetPrice]);
 
   const toggleModal = () => {
     setIsShowModal(!isShowModal);
@@ -41,9 +44,11 @@ const Info = ({ month }: InfoProps) => {
       </div>
       <div className="flex flex-col gap-2">
         <span className="text-cyan text-2xl font-bold">
-          {remainBudgetPrice}원 남음
+          {remainBudgetPrice?.toLocaleString()}원 남음
         </span>
-        <span className="text-silver">하루 예산 {dailyBudgetPrice}원</span>
+        <span className="text-silver">
+          하루 예산 {dailyBudgetPrice?.toLocaleString()}원
+        </span>
       </div>
       <div className="flex flex-col mt-20 gap-4">
         <div className="relative flex flex-col">
@@ -57,23 +62,19 @@ const Info = ({ month }: InfoProps) => {
             <div className="border-cyan border-dashed border-[1px] h-4"></div>
           </div> */}
           <div className="relative">
-            <ProgressBar
-              value={
-                recommendedSpendingPrice ? recommendedSpendingPrice / 100 : 0
-              }
-            />
+            <ProgressBar value={amountSpent || 0} />
             <span className="absolute left-0 top-0 translate-x-2/4 translate-y-1/4 text-xs text-white">
-              {recommendedSpendingPrice ? recommendedSpendingPrice / 100 : 0}
+              {amountSpent}%
             </span>
           </div>
         </div>
         <div className="flex justify-between text-white">
           <span>예산</span>
-          <span>{totalPrice}원</span>
+          <span>{totalPrice?.toLocaleString()}원</span>
         </div>
         <div className="flex justify-between text-white">
           <span>오늘까지 권장 지출</span>
-          <span>{recommendedSpendingPrice}원</span>
+          <span>{recommendedSpendingPrice?.toLocaleString()}원</span>
         </div>
       </div>
       {isShowModal && (
@@ -82,10 +83,7 @@ const Info = ({ month }: InfoProps) => {
           onCloseModal={toggleModal}
           className="h-auto"
         >
-          <SettingBudget
-            month={month}
-            onCloseModal={toggleModal}
-          />
+          <SettingBudget onCloseModal={toggleModal} />
         </Modal>
       )}
     </section>

@@ -1,9 +1,12 @@
 import { getBudgetInfo } from '@/apis/budget';
 import { BUDGET_GET_SUCCESS } from '@/constants/status';
+import useCalendarStore from '@/store/useCalendarStore';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
-const useBudget = (month: number) => {
+const useBudget = () => {
+  const month = useCalendarStore((state) => state.month);
+
   const [budgetData, setBudgetData] = useState<{
     totalPrice: number;
     remainBudgetPrice: number;
@@ -11,7 +14,7 @@ const useBudget = (month: number) => {
     recommendedSpendingPrice: number;
   }>();
 
-  const { isLoading } = useQuery(
+  const { isLoading, refetch: refetchBugetInfo } = useQuery(
     ['getBudgetInfo'],
     () => getBudgetInfo(month),
     {
@@ -25,6 +28,7 @@ const useBudget = (month: number) => {
 
   return {
     budgetLoading: isLoading,
+    refetchBugetInfo,
     totalPrice: budgetData?.totalPrice,
     remainBudgetPrice: budgetData?.remainBudgetPrice,
     dailyBudgetPrice: budgetData?.dailyBudgetPrice,
