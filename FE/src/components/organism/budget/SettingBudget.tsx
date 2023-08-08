@@ -1,16 +1,15 @@
 import Button from '@/components/atoms/Button';
 import PriceInput from '@/components/molecule/PriceInput';
-import useBudget from '@/hooks/Budget/useBudget';
 import usePostOrPatch from '@/hooks/Budget/usePostOrPatch';
-import useGetTransAction from '@/hooks/TransAction/useGetTransAction';
 import useCalendarStore from '@/store/useCalendarStore';
 import { Controller, useForm } from 'react-hook-form';
 
 interface SettingBudgetProps {
   onCloseModal: () => void;
+  totalPrice: string | undefined;
 }
 
-const SettingBudget = ({ onCloseModal }: SettingBudgetProps) => {
+const SettingBudget = ({ onCloseModal, totalPrice }: SettingBudgetProps) => {
   const month = useCalendarStore((state) => state.month);
 
   const {
@@ -18,7 +17,7 @@ const SettingBudget = ({ onCloseModal }: SettingBudgetProps) => {
     handleSubmit,
     formState: { isDirty, isValid },
   } = useForm({
-    defaultValues: { budgetPrice: '' },
+    defaultValues: { budgetPrice: totalPrice || '' },
   });
 
   const { fetchPostOrPatchBudget } = usePostOrPatch();
@@ -44,10 +43,6 @@ const SettingBudget = ({ onCloseModal }: SettingBudgetProps) => {
           )}
         />
         <div className="mt-4">
-          <div className="flex justify-between">
-            <span>최근 3개월 평균 지출</span>
-            <span>{}원</span>
-          </div>
           <div className="flex justify-between">
             <span>지난 달 지출</span>
             <span>{}원</span>

@@ -9,7 +9,7 @@ const useGetTransAction = () => {
     data: transActionData,
     isLoading,
     refetch: refetchTransAction,
-  } = useQuery(['getTransAction'], () => getTransAction(month));
+  } = useQuery(['getTransAction', month], () => getTransAction(month));
 
   return { transActionData, isLoading, refetchTransAction };
 };
