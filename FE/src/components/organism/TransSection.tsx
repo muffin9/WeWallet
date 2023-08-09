@@ -1,6 +1,6 @@
 import Button from '@/components/atoms/Button';
 import BudgetText from '@/components/molecule/BudgetText';
-import AddTranModal from './main/AddTranModal';
+import AddTranModal from './AddTranModal';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 

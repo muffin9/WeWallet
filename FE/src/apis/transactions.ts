@@ -1,4 +1,4 @@
-import { TypeTransactions } from '@/components/organism/main/AddTranModal';
+import { TypeTransactions } from '@/components/organism/AddTranModal';
 import axios from 'axios';
 
 export const getTransAction = async (month: number) => {
@@ -11,6 +11,19 @@ export const getTransAction = async (month: number) => {
     return response.data;
   } catch (err) {
     throw new Error('transaction get api error');
+  }
+};
+
+export const getTransActionDetail = async (month: number, day: number) => {
+  try {
+    const response = await axios.get(
+      `${process.env.API_URL}/transaction/detail?month=${month}&day=${day}`,
+      { withCredentials: true },
+    );
+
+    return response.data;
+  } catch (err) {
+    throw new Error('transaction get detail api error');
   }
 };
 
