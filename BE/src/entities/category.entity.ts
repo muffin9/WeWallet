@@ -8,14 +8,16 @@ export class Category {
   @Column()
   name: string;
 
-  @Column()
-  image_url: string;
+  @Column({
+    name: 'image_url',
+  })
+  imageUrl: string;
 
   public toModel() {
     return {
       id: this.id,
       name: this.name,
-      image_url: this.image_url,
+      imageUrl: this.imageUrl,
     };
   }
 }

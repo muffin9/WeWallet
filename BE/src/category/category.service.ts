@@ -18,9 +18,9 @@ export class CategoryService {
     for (const category of categories) {
       const combinedCategory: CombinedDataParams = {
         category: {
-          category_id: category.category_id,
-          category_name: category.category_name,
-          category_image_url: category.category_image_url,
+          categoryId: category.category_id,
+          categoryName: category.category_name,
+          categoryImageUrl: category.category_image_url,
           subCategory: [],
         },
       };
@@ -28,8 +28,8 @@ export class CategoryService {
       for (const subCategory of subCategories) {
         if (subCategory.subCategory_category_id === category.category_id) {
           combinedCategory.category.subCategory.push({
-            subCategory_id: subCategory.subCategory_id,
-            subCategory_name: subCategory.subCategory_name,
+            subCategoryId: subCategory.subCategory_id,
+            subCategoryName: subCategory.subCategory_name,
           });
         }
       }
@@ -42,14 +42,14 @@ export class CategoryService {
 
   async getAllCategory(): Promise<{
     status: string;
-    data: CombinedDataParams[];
+    allCategories: CombinedDataParams[];
   }> {
     const categories = await this.categoryRepository.getCategory();
     const subCategories = await this.subCategoryRepository.getSubCategory();
 
     return {
       status: CATEGORY_STATUS.CATEGORY_ALL_GET_SUCCESS,
-      data: this.combineData(categories, subCategories),
+      allCategories: this.combineData(categories, subCategories),
     };
   }
 }

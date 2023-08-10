@@ -9,7 +9,7 @@ export class CategoryController {
   @Get('/all')
   async getAllCategory(): Promise<{
     status: string;
-    data: CombinedDataParams[];
+    allCategories: CombinedDataParams[];
   }> {
     return await this.categoryService.getAllCategory();
   }

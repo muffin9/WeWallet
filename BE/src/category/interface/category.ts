@@ -1,11 +1,11 @@
 export interface CombinedDataParams {
   category: {
-    category_id: number;
-    category_name: string;
-    category_image_url: string;
+    categoryId: number;
+    categoryName: string;
+    categoryImageUrl: string;
     subCategory: {
-      subCategory_id: number;
-      subCategory_name: string;
+      subCategoryId: number;
+      subCategoryName: string;
     }[];
   };
 }

@@ -30,7 +30,7 @@ export class BudgetRepository implements IBudgetRepository {
       .insert()
       .into(Budget)
       .values({
-        total_price: requestBudget.budgetPrice,
+        totalPrice: requestBudget.budgetPrice,
         month: requestBudget.month,
         user,
       })
@@ -42,7 +42,7 @@ export class BudgetRepository implements IBudgetRepository {
       .createQueryBuilder()
       .update(Budget)
       .set({
-        total_price: requestBudget.budgetPrice,
+        totalPrice: requestBudget.budgetPrice,
         month: requestBudget.month,
       })
       .where('budget.user_id = :userId', { userId })

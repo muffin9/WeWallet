@@ -36,10 +36,10 @@ export class User {
   @Column({ type: 'enum', enum: Provider, default: Provider.Local })
   provider: Provider;
 
-  @Column({ type: Date })
+  @Column({ type: Date, name: 'created_at' })
   createdAt: Date;
 
-  @Column({ type: Date, nullable: true })
+  @Column({ type: Date, nullable: true, name: 'updated_at' })
   updatedAt: Date;
 
   public toModel() {

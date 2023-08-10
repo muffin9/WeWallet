@@ -1,6 +1,6 @@
-import { TransactionType } from '@/entities/transaction.entity';
+import { Transaction, TransactionType } from '@/entities/transaction.entity';
 
-export type transActionTypeRequest = {
+export type transActionPostTypeRequest = {
   price: string;
   type: TransactionType;
   categoryId: number | null;
@@ -12,6 +12,19 @@ export type transActionTypeRequest = {
   isBudget: boolean;
 };
 
-export type transActionTypeResponse = {
+export type transActionGetTransResponse = {
   status: string;
+  all: { [key: string]: number };
+  date: { [key: string]: { [key: string]: number } };
+};
+
+export type transActionPostTypeResponse = {
+  status: string;
+};
+
+export type transActionDetailTypeResponse = {
+  status: string;
+  day: number;
+  totalPrice: number;
+  detailInfos: Omit<Transaction, 'user' | 'subCategory'>[];
 };
