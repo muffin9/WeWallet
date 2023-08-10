@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
-  transActionTypeRequest,
-  transActionTypeResponse,
+  transActionPostTypeRequest,
+  transActionPostTypeResponse,
 } from './interface/transaction';
 import { DataSource } from 'typeorm';
 import { Transaction, TransactionType } from '@/entities/transaction.entity';
@@ -16,12 +16,17 @@ export interface ITransRepository {
     user: User,
     type?: TransactionType,
   ) => Promise<Transaction[]>;
+  getTransDetail: (
+    month: number,
+    day: number,
+    user: User,
+  ) => Promise<Transaction[]>;
   postTrans: (
-    transActionTypeRequest: transActionTypeRequest,
+    transActionPostTypeRequest: transActionPostTypeRequest,
     user: User,
     category: Category,
     subCategory: SubCategory,
-  ) => Promise<transActionTypeResponse>;
+  ) => Promise<transActionPostTypeResponse>;
 }
 
 @Injectable()
@@ -30,7 +35,6 @@ export class TransRepository implements ITransRepository {
     @Inject('DATA_SOURCE')
     private readonly dataSource: DataSource,
   ) {}
-
   async getTrans(month: number, user: User, type?: TransactionType) {
     const query = this.dataSource
       .createQueryBuilder(Transaction, 'transaction')
@@ -44,8 +48,19 @@ export class TransRepository implements ITransRepository {
     return query.getMany();
   }
 
+  async getTransDetail(month: number, day: number, user: User) {
+    const query = this.dataSource
+      .createQueryBuilder(Transaction, 'transaction')
+      .where('MONTH(transaction.date) = :month', { month })
+      .andWhere('DAY(transaction.date) = :day', { day })
+      .andWhere('transaction.user_id = :user_id', { user_id: user.id })
+      .leftJoinAndSelect('transaction.category', 'category');
+
+    return query.getMany();
+  }
+
   async postTrans(
-    data: transActionTypeRequest,
+    data: transActionPostTypeRequest,
     user: User,
     category: Category,
     subCategory: SubCategory,
@@ -58,11 +73,11 @@ export class TransRepository implements ITransRepository {
         price: +data.price,
         type: data.type,
         account: data.account,
-        payment_method: data.paymentMethod,
+        paymentMethod: data.paymentMethod,
         date: data.date,
         memo: data.memo,
-        is_budget: data.isBudget,
-        is_fixed: false,
+        isBudget: data.isBudget,
+        isFixed: false,
         createdAt: new Date(),
         user,
         category,

@@ -7,7 +7,12 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { transActionTypeRequest } from './interface/transaction';
+import {
+  transActionDetailTypeResponse,
+  transActionGetTransResponse,
+  transActionPostTypeRequest,
+  transActionPostTypeResponse,
+} from './interface/transaction';
 import { Request } from 'express';
 import { TransService } from './trans.service';
 import { JwtAuthGuard } from '@/auth/auth.middleware';
@@ -22,21 +27,28 @@ export class TransController {
   getTrans(
     @Query('month') month: number,
     @Req() req: Request,
-  ): Promise<{
-    status: string;
-    all: { [key: string]: number };
-    date: { [key: string]: { [key: string]: number } };
-  }> {
+  ): Promise<transActionGetTransResponse> {
     const { userId } = req.user as LocalUserTypeResponse;
     return this.transService.getTrans(month, userId);
+  }
+
+  @Get('/detail')
+  @UseGuards(JwtAuthGuard)
+  getTransDetail(
+    @Query('month') month: number,
+    @Query('day') day: number,
+    @Req() req: Request,
+  ): Promise<transActionDetailTypeResponse> {
+    const { userId } = req.user as LocalUserTypeResponse;
+    return this.transService.getTransDetail(month, day, userId);
   }
 
   @Post('/')
   @UseGuards(JwtAuthGuard)
   async postTrans(
-    @Body() requestTransAction: transActionTypeRequest,
+    @Body() requestTransAction: transActionPostTypeRequest,
     @Req() req: Request,
-  ): Promise<{ status: string }> {
+  ): Promise<transActionPostTypeResponse> {
     const { userId } = req.user as LocalUserTypeResponse;
 
     return await this.transService.postTrans(requestTransAction, userId);

@@ -15,7 +15,7 @@ const useBudget = () => {
   }>();
 
   const { isLoading, refetch: refetchBugetInfo } = useQuery(
-    ['getBudgetInfo'],
+    ['getBudgetInfo', month],
     () => getBudgetInfo(month),
     {
       onSuccess: ({ budgetInfo, status }) => {

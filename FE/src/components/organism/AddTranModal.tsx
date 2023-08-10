@@ -14,6 +14,7 @@ import { PaymentArr, PaymentMethods, TransType } from '@/constants/util';
 import useCategory from '@/hooks/Category/useCategory';
 import useTransAction from '@/hooks/TransAction/useTransAction';
 import { SubCategoryType } from '@/types/category';
+import { TransDetailInfoType } from '@/types/transaction';
 import { setObjectKeys } from '@/utils/util';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
@@ -22,6 +23,7 @@ import * as yup from 'yup';
 
 interface AddTranModalProps {
   onCloseModal: () => void;
+  clickedDetailData?: TransDetailInfoType;
 }
 
 export type TypeTransactions = {
@@ -50,7 +52,10 @@ const validationSchema = yup.object().shape({
   isBudget: yup.boolean().required('예산여부를 선택해주세요.'),
 });
 
-const AddTranModal = ({ onCloseModal }: AddTranModalProps) => {
+const AddTranModal = ({
+  onCloseModal,
+  clickedDetailData,
+}: AddTranModalProps) => {
   const {
     control,
     handleSubmit,

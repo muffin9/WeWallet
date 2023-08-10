@@ -39,7 +39,7 @@ export class BudgetService {
     // remainBudgetPrice : 남은 예산
     // dailyBudgetPrice: 하루 예산
     // RecommendedSpendingPrice: 추천 지출
-    const totalPrice = budgetData?.total_price || 0;
+    const totalPrice = budgetData?.totalPrice || 0;
     const incomeTrans = await this.transRepository.getTrans(
       month,
       user,
@@ -54,7 +54,7 @@ export class BudgetService {
       status: BUDGET_STATUS.BUDGET_GET_SUCCESS,
       budgetInfo: {
         totalPrice,
-        remainBudgetPrice: totalPrice - usePrice,
+        remainBudgetPrice: totalPrice === 0 ? 0 : totalPrice - usePrice,
         dailyBudgetPrice: Math.floor(totalPrice / getDaysInThisMonth()),
         recommendedSpendingPrice: this.calculatedRecommendedSpendingPrice(
           totalPrice,

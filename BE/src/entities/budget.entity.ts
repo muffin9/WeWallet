@@ -13,14 +13,16 @@ export class Budget {
   id: number;
 
   @Column({
+    name: 'total_price',
     default: 0,
   })
-  total_price: number;
+  totalPrice: number;
 
   @Column({
+    name: 'use_price',
     default: 0,
   })
-  use_price: number;
+  usePrice: number;
 
   @Column()
   month: number;

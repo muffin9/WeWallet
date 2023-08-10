@@ -50,9 +50,10 @@ export class Transaction {
     type: 'enum',
     enum: PaymentMethodType,
     default: PaymentMethodType.CHECK_CARD,
+    name: 'payment_method',
   })
   @IsOptional()
-  payment_method: string;
+  paymentMethod: string;
 
   @Column()
   date: Date;
@@ -61,17 +62,21 @@ export class Transaction {
   @IsOptional()
   memo: string;
 
-  @Column({ type: Date })
+  @Column({ type: Date, name: 'created_at' })
   createdAt: Date;
 
-  @Column({ type: Date, nullable: true })
+  @Column({ type: Date, nullable: true, name: 'updated_at' })
   updatedAt: Date;
 
-  @Column()
-  is_budget: boolean;
+  @Column({
+    name: 'is_budget',
+  })
+  isBudget: boolean;
 
-  @Column()
-  is_fixed: boolean;
+  @Column({
+    name: 'is_fixed',
+  })
+  isFixed: boolean;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
