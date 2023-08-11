@@ -33,16 +33,16 @@ const GridContentArea = ({
         <>
           <div
             className="flex flex-col items-center flex-wrap gap-y-2 cursor-pointer"
-            key={category.category_id}
-            onClick={() => onClick(category.category_id)}
+            key={category.categoryId}
+            onClick={() => onClick(category.categoryId)}
           >
             <img
               width={32}
               height={32}
-              src={`${process.env.API_URL}/${category.category_image_url}`}
+              src={`${process.env.API_URL}/${category.categoryImageUrl}`}
             />
             <span className="text-xs text-success">
-              {category.category_name}
+              {category.categoryName}
             </span>
           </div>
         </>

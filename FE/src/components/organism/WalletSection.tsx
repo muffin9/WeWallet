@@ -1,12 +1,9 @@
 import useGetTransAction from '@/hooks/TransAction/useGetTransAction';
-import { nowDate } from '@/utils/date';
-import { useState } from 'react';
 import DateInput from './DateInput';
 import TransSection from './TransSection';
 import { Calendar } from '../shadcn/Calendar';
 import LoadingSpinner from '../atoms/LoadingSpinner';
 import Info from './budget/Info';
-import useCalendarStore from '@/store/useCalendarStore';
 
 interface WalletSectionProps {
   currentPage: string;

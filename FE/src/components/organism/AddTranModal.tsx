@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import BottomPopup from '@/components/atoms/BottomPopup';
 import Button from '@/components/atoms/Button';
 import ClickBox from '@/components/atoms/ClickBox';
@@ -14,12 +15,13 @@ import { PaymentArr, PaymentMethods, TransType } from '@/constants/util';
 import useCategory from '@/hooks/Category/useCategory';
 import useTransAction from '@/hooks/TransAction/useTransAction';
 import { SubCategoryType } from '@/types/category';
-import { TransDetailInfoType } from '@/types/transaction';
+import { TransDetailInfoType, TransactionType } from '@/types/transaction';
 import { setObjectKeys } from '@/utils/util';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import TrashComponent from '@/assets/images/trash.png';
 
 interface AddTranModalProps {
   onCloseModal: () => void;
@@ -56,6 +58,8 @@ const AddTranModal = ({
   onCloseModal,
   clickedDetailData,
 }: AddTranModalProps) => {
+  const isClickedDetail = clickedDetailData?.id ? true : false;
+
   const {
     control,
     handleSubmit,
@@ -63,21 +67,21 @@ const AddTranModal = ({
     formState: { isDirty, isValid },
   } = useForm({
     defaultValues: {
-      price: '',
-      type: 'INCOME',
-      categoryId: 0,
+      price: clickedDetailData?.price.toString() || '',
+      type: clickedDetailData?.type || TransactionType.EXPENDITURE,
+      categoryId: clickedDetailData?.category.id || 0,
       subCategoryId: 0,
-      account: '',
-      paymentMethod: '',
-      date: new Date(),
-      memo: '',
-      isBudget: false,
+      account: clickedDetailData?.account || '',
+      paymentMethod: clickedDetailData?.paymentMethod || '',
+      date: new Date(clickedDetailData?.date!) || new Date(),
+      memo: clickedDetailData?.memo || '',
+      isBudget: clickedDetailData?.isBudget || false,
     },
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
   });
 
-  const { fetchPostTransAction } = useTransAction();
+  const { fetchPostTransAction, deleteTransAtion } = useTransAction();
   const { allCategoriesData } = useCategory();
 
   const [bottomPopupType, setBottomPopupType] = useState('');
@@ -87,19 +91,28 @@ const AddTranModal = ({
   };
 
   const onSubmit = (data: TypeTransactions) => {
-    fetchPostTransAction.mutate(data);
+    fetchPostTransAction.mutate([data, clickedDetailData?.id]);
+    onCloseModal();
+  };
+
+  const deleteTransaction = () => {
+    if (!clickedDetailData?.id) return;
+
+    deleteTransAtion.mutate(clickedDetailData?.id);
     onCloseModal();
   };
 
   const calculatedValue = (categoryId: number) => {
+    if (!allCategoriesData) return '미분류';
+
     const categoryName =
-      allCategoriesData[categoryId - 1].category.category_name;
+      allCategoriesData[categoryId - 1].category.categoryName;
 
     const subCategory = allCategoriesData[categoryId - 1]?.category.subCategory;
 
     const subCategoryName = subCategory.find(
-      (sub: SubCategoryType) => sub.subCategory_id === watch('subCategoryId'),
-    )?.subCategory_name;
+      (sub: SubCategoryType) => sub.subCategoryId === watch('subCategoryId'),
+    )?.subCategoryName;
 
     return `${categoryName}-${subCategoryName || '미분류'}`;
   };
@@ -342,15 +355,29 @@ const AddTranModal = ({
             )}
           />
         </div>
-        <Button
-          size="large"
-          variant={!isDirty || !isValid ? 'default' : 'primary'}
-          disabled={!isDirty || !isValid}
-          text="저장하기"
-          width="w-full"
-          className="mt-8"
-          type="submit"
-        />
+        <div className="flex gap-4 mt-8">
+          {isClickedDetail && (
+            <div
+              onClick={deleteTransaction}
+              className="flex items-center cursor-pointer"
+            >
+              <Image
+                width={24}
+                height={24}
+                src={TrashComponent}
+                alt="trash-icon"
+              />
+            </div>
+          )}
+          <Button
+            size={isClickedDetail ? 'medium' : 'large'}
+            variant={!isDirty || !isValid ? 'default' : 'primary'}
+            disabled={!isDirty || !isValid}
+            text={isClickedDetail ? '수정하기' : '저장하기'}
+            width="w-full"
+            type="submit"
+          />
+        </div>
       </form>
     </Modal>
   );

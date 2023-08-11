@@ -9,7 +9,9 @@ export type ModalType =
   | 'login'
   | 'checkEmail'
   | 'checkPassword'
-  | 'transactionSuccess'
+  | 'transactionPostSuccess'
+  | 'transactionPatchSuccess'
+  | 'transactionDeleteSuccess'
   | 'loading';
 
 interface ModalState {
