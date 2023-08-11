@@ -27,16 +27,42 @@ export const getTransActionDetail = async (month: number, day: number) => {
   }
 };
 
-export const postTransAction = async (transactionData: TypeTransactions) => {
+export const postOrPatchTransAction = async (
+  transactionData: TypeTransactions,
+  detailId: number | undefined,
+) => {
   try {
-    const response = await axios.post(
-      `${process.env.API_URL}/transaction`,
-      transactionData,
-      { withCredentials: true },
-    );
-
-    return response.data;
+    if (detailId) {
+      const response = await axios.patch(
+        `${process.env.API_URL}/transaction`,
+        { id: detailId, ...transactionData },
+        { withCredentials: true },
+      );
+      return response.data;
+    } else {
+      const response = await axios.post(
+        `${process.env.API_URL}/transaction`,
+        transactionData,
+        { withCredentials: true },
+      );
+      return response.data;
+    }
   } catch (err) {
     throw new Error('transaction post api error');
+  }
+};
+
+export const deleteTransAction = async (id: number) => {
+  try {
+    if (!id) return;
+    const response = await axios.delete(
+      `${process.env.API_URL}/transaction?id=${id}`,
+      {
+        withCredentials: true,
+      },
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error('transaction delete api error');
   }
 };

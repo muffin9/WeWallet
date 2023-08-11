@@ -15,9 +15,9 @@ const DateDetailSection = ({
   return (
     <section className="flex flex-col w-72">
       <header className="flex flex-col">
-        <div className="flex justify-between">
-          <h2 className="font-bold text-lg">{transActionDetailData.day}일</h2>
-          <span>X</span>
+        <div className="flex gap-2 font-bold text-lg">
+          <h1>{transActionDetailData.month}월</h1>
+          <h2>{transActionDetailData.day}일</h2>
         </div>
         <div className="flex justify-between">
           <span>총 {transActionDetailData.detailInfos.length || 0}건</span>
@@ -30,14 +30,14 @@ const DateDetailSection = ({
           (detailInfo: TransDetailInfoType) => {
             return (
               <div
-                className="flex gap-4 mt-4 items-center cursor-pointer"
+                className="flex gap-4 mt-4 items-center cursor-pointer hover:bg-silver"
                 onClick={() => handleClickDetailInfo(detailInfo.id)}
                 key={`detail-info-${detailInfo.id}`}
               >
                 <img
                   width={32}
                   height={32}
-                  src={`${process.env.API_URL}/${detailInfo.category.image_url}`}
+                  src={`${process.env.API_URL}/${detailInfo.category.imageUrl}`}
                   alt="category image"
                 />
                 <div className="flex flex-col">

@@ -6,6 +6,7 @@ export enum TransactionType {
 
 export type TransActionDetailDataType = {
   status: string;
+  month: number;
   day: number;
   detailInfos: TransDetailInfoType[];
   totalPrice: number;
@@ -13,14 +14,14 @@ export type TransActionDetailDataType = {
 
 export type TransDetailInfoType = {
   account: string;
-  category: { id: number; name: string; image_url: string };
+  category: { id: number; name: string; imageUrl: string };
   createdAt: string;
   date: string;
   id: number;
-  is_budget: boolean;
-  is_fixed: boolean;
+  isBudget: boolean;
+  isFixed: boolean;
   memo: string;
-  payment_method: string;
+  paymentMethod: string;
   price: number;
   type: TransactionType;
   updatedAt: string;
