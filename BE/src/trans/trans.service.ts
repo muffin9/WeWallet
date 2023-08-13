@@ -1,5 +1,8 @@
 import { Inject } from '@nestjs/common';
-import { transActionPostTypeRequest } from './interface/transaction';
+import {
+  transActionPatchTypeRequest,
+  transActionPostTypeRequest,
+} from './interface/transaction';
 import { ITransRepository } from './trans.repository';
 import { IUserRepository } from '@/user/user.repository';
 import { ICategoryRepository } from '@/category/category.repository';
@@ -83,6 +86,7 @@ export class TransService {
 
     return {
       status: TRANS_STATUS.TRANSACTION_GET_DETAIL_SUCCESS,
+      month,
       day: +day,
       totalPrice: transactionDetailData.reduce(
         (acc, cur) => acc + cur.price,
@@ -110,5 +114,30 @@ export class TransService {
       category,
       subCategory,
     );
+  }
+
+  async patchTrans(
+    requestTransAction: transActionPatchTypeRequest,
+    userId: number,
+  ) {
+    const user = await this.userRepository.findOne(userId);
+    const category = await this.categoryRepository.findOne(
+      requestTransAction.categoryId,
+    );
+    const subCategory = await this.subCategoryRepository.findOne(
+      requestTransAction.subCategoryId,
+    );
+
+    return this.transRepository.patchTrans(
+      requestTransAction,
+      user,
+      category,
+      subCategory,
+    );
+  }
+
+  async deleteTrans(transId: number, userId: number) {
+    const user = await this.userRepository.findOne(userId);
+    return this.transRepository.deleteTrans(transId, user);
   }
 }

@@ -11,11 +11,12 @@ import { loginUserTypeRequest, loginUserTypeResponse } from './interface/login';
 import { transformPassword, validatePassword } from './user.util';
 
 export interface IUserRepository {
-  getUserByUserEmail(email: string): Promise<UserModel>;
+  getUserByEmail(email: string): Promise<UserModel>;
   findAll: () => Promise<User[]>;
   findOne: (userId: number) => Promise<User>;
   signupUser: (user: signupUserTypeRequest) => Promise<signupUserTypeResponse>;
   login: (user: loginUserTypeRequest) => Promise<loginUserTypeResponse>;
+  signupUserBySocial: (user: UserModel) => Promise<number>;
 }
 
 @Injectable()
@@ -39,7 +40,7 @@ export class UserRepository implements IUserRepository {
       .getOne();
   }
 
-  async getUserByUserEmail(email: string) {
+  async getUserByEmail(email: string) {
     const user = await this.dataSource
       .createQueryBuilder(User, 'user')
       .where('user.email = :email', { email })
@@ -59,7 +60,7 @@ export class UserRepository implements IUserRepository {
         ...user,
         password: convertedPassword,
         createdAt: new Date(),
-        provider: 1,
+        provider: 'LOCAL',
       })
       .execute();
 
@@ -72,6 +73,17 @@ export class UserRepository implements IUserRepository {
           nickname: user.nickname,
         },
       };
+  }
+
+  async signupUserBySocial(user: UserModel) {
+    const newUser = await this.dataSource
+      .createQueryBuilder()
+      .insert()
+      .into(User)
+      .values({ ...user })
+      .execute();
+
+    if (newUser) return newUser.generatedMaps[0].id;
   }
 
   async login(user: loginUserTypeRequest) {

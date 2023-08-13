@@ -4,6 +4,8 @@ import { Strategy } from 'passport-kakao';
 import { ConfigType } from '@nestjs/config';
 import { UserModel } from '@/user/domain/user.model';
 import kakaoLoginConfig from '@/config/kakao.login.config';
+import { IUserReader } from '@/user/outport/user.reader.interface';
+import { IUserStore } from '@/user/outport/user.store.interface';
 
 export type kakaoUserType = {
   email: string;
@@ -11,22 +13,16 @@ export type kakaoUserType = {
   userId: number;
 };
 
-interface IUserReader {
-  getUserByEmail(email: string): Promise<UserModel>;
-}
-
-interface IUserStore {
-  create(user: UserModel): Promise<number>;
-}
-
 @Injectable()
 export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   constructor(
     @Inject(kakaoLoginConfig.KEY)
     private readonly config: ConfigType<typeof kakaoLoginConfig>,
 
+    @Inject('IUserReader')
     private readonly userReader: IUserReader,
 
+    @Inject('IUserStore')
     private readonly userStore: IUserStore,
   ) {
     super({
@@ -43,15 +39,17 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
       profileJsonAccount.email,
     );
 
-    if (!createdUser)
-      userId = await this.userStore.create(
+    if (!createdUser) {
+      userId = await this.userStore.signupUserBySocial(
         UserModel.signUpSocial({
           ...profileJsonAccount,
           nickname: profileJsonAccount.profile.nickname,
           createdAt: new Date(),
         }),
       );
-    userId = createdUser.getProperties().id;
+    } else {
+      userId = createdUser.getProperties().id;
+    }
 
     const payload: kakaoUserType = {
       email: profileJsonAccount.email,

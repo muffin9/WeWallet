@@ -3,12 +3,6 @@ import { IsOptional, IsString } from 'class-validator';
 import { UserModel } from '@/user/domain/user.model';
 import { PROVIDER } from '@/user/domain/vo/provider';
 
-export enum Provider {
-  Local,
-  Google,
-  Kakao,
-}
-
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -33,8 +27,8 @@ export class User {
   @IsOptional()
   is_active: boolean;
 
-  @Column({ type: 'enum', enum: Provider, default: Provider.Local })
-  provider: Provider;
+  @Column({ type: 'enum', enum: PROVIDER, default: PROVIDER.LOCAL })
+  provider: string;
 
   @Column({ type: Date, name: 'created_at' })
   createdAt: Date;

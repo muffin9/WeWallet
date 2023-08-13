@@ -1,5 +1,6 @@
 export const PROVIDER = {
-  KAKAO: 'Kakao',
-  COMMON: 'Common',
+  LOCAL: 'LOCAL',
+  KAKAO: 'KAKAO',
+  GOOGLE: 'GOOGLE',
 } as const;
 type PROVIDER = (typeof PROVIDER)[keyof typeof PROVIDER];

@@ -73,16 +73,18 @@ export class AuthController {
       AuthDtoMapper.toSocialLoginCommand(req),
     );
 
-    res.cookie('refresh-token', loginInfo.refreshToken, {
-      path: '/',
-      maxAge: 60 * 60 * 10,
-      httpOnly: true,
-    });
-    res.cookie('access-token', loginInfo.accessToken, {
-      path: '/',
-      maxAge: 60 * 60 * 10,
-      httpOnly: true,
-    });
-    res.redirect('http://localhost:3000');
+    if (loginInfo.accessToken) {
+      res.cookie('refresh-token', loginInfo.refreshToken, {
+        path: '/',
+        maxAge: 60 * 60 * 10,
+        httpOnly: true,
+      });
+      res.cookie('access-token', loginInfo.accessToken, {
+        path: '/',
+        maxAge: 60 * 60 * 10,
+        httpOnly: true,
+      });
+      return res.redirect('http://localhost:3000/main');
+    }
   }
 }

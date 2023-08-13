@@ -29,8 +29,8 @@ export class UserController {
   }
 
   @Get('/check')
-  getUserbyEmail(@Query('email') email?: string) {
-    return this.userService.getUserbyEmail(email);
+  getUserByEmail(@Query('email') email?: string) {
+    return this.userService.getUserByEmail(email);
   }
 
   @Post('/signup')
@@ -61,10 +61,10 @@ export class UserController {
         httpOnly: true,
       });
 
-      res.send({ status, user });
+      return res.send({ status, user });
     }
 
-    res.send({ status, user });
+    return res.send({ status, user });
   }
 
   @Post('/login')
@@ -92,9 +92,9 @@ export class UserController {
         httpOnly: true,
       });
 
-      res.send({ status, user });
+      return res.send({ status, user });
     }
 
-    res.send({ status, user });
+    return res.send({ status, user });
   }
 }

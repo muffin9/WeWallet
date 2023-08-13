@@ -16,12 +16,16 @@ export class UserService {
 
   findOne: (userId: number) => Promise<User>;
 
-  getUserbyEmail(email: string): Promise<UserModel> {
-    return this.userRepository.getUserByUserEmail(email);
+  getUserByEmail(email: string): Promise<UserModel> {
+    return this.userRepository.getUserByEmail(email);
   }
 
   signupUser(user: signupUserTypeRequest) {
     return this.userRepository.signupUser(user);
+  }
+
+  signupSocialUser(user: UserModel) {
+    return this.userRepository.signupUserBySocial(user);
   }
 
   login(user: loginUserTypeRequest) {
