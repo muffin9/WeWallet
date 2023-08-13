@@ -1,5 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
+  transActionPatchTypeRequest,
+  transActionPatchTypeResponse,
   transActionPostTypeRequest,
   transActionPostTypeResponse,
 } from './interface/transaction';
@@ -27,6 +29,13 @@ export interface ITransRepository {
     category: Category,
     subCategory: SubCategory,
   ) => Promise<transActionPostTypeResponse>;
+  patchTrans: (
+    transActionPostTypeRequest: transActionPatchTypeRequest,
+    user: User,
+    category: Category,
+    subCategory: SubCategory,
+  ) => Promise<transActionPatchTypeResponse>;
+  deleteTrans: (id: number, user: User) => Promise<{ status: string }>;
 }
 
 @Injectable()
@@ -65,7 +74,7 @@ export class TransRepository implements ITransRepository {
     category: Category,
     subCategory: SubCategory,
   ) {
-    const newTransAction = await this.dataSource
+    const newTransAction = this.dataSource
       .createQueryBuilder()
       .insert()
       .into(Transaction)
@@ -87,5 +96,47 @@ export class TransRepository implements ITransRepository {
 
     if (newTransAction)
       return { status: TRANS_STATUS.TRANSACTION_POST_SUCCESS };
+  }
+
+  async patchTrans(
+    data: transActionPatchTypeRequest,
+    user: User,
+    category: Category,
+    subCategory: SubCategory,
+  ) {
+    const id = data.id;
+
+    const updateTransAction = this.dataSource
+      .createQueryBuilder()
+      .update(Transaction)
+      .set({
+        price: +data.price,
+        type: data.type,
+        account: data.account,
+        paymentMethod: data.paymentMethod,
+        date: data.date,
+        memo: data.memo,
+        isBudget: data.isBudget,
+        createdAt: data.date,
+        user,
+        category,
+        subCategory,
+      })
+      .where('transaction.id = :id', { id })
+      .execute();
+
+    if (updateTransAction)
+      return { status: TRANS_STATUS.TRANSACTION_PATCH_SUCCESS };
+  }
+
+  async deleteTrans(id: number, user: User) {
+    this.dataSource
+      .createQueryBuilder()
+      .delete()
+      .from(Transaction)
+      .where('transaction.id = :id', { id })
+      .execute();
+
+    return { status: TRANS_STATUS.TRANSACTION_DELETE_SUCCESS };
   }
 }

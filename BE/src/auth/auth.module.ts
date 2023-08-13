@@ -12,7 +12,7 @@ import { SessionRepository } from './session/session.repository';
   imports: [UserModule, MysqlModule],
   controllers: [AuthController],
   providers: [
-    // KakaoStrategy,
+    KakaoStrategy,
     {
       provide: 'SessionUseCase',
       useClass: AuthService,

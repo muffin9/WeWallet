@@ -10,7 +10,7 @@ import { join } from 'path';
 async function main() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://175.124.105.132'],
     credentials: true,
   });
 
