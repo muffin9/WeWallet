@@ -12,18 +12,6 @@ export const checkDupliateEmail = async (email: string) => {
   }
 };
 
-export const kakaoAuth = async (code: string | string[]) => {
-  try {
-    const response = await axios.post(`${process.env.API_URL}/auth/kakao`, {
-      code,
-    });
-
-    return response;
-  } catch (err) {
-    throw new Error(`Auth Error: ${err}`);
-  }
-};
-
 export const restoreAccessToken = async (refreshToken: string) => {
   try {
     await axios.post(

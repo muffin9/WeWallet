@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import BottomPopup from '.';
 import Input from '../Input';
 import { useState } from 'react';
@@ -14,7 +15,7 @@ const PrimitiveBottomPopup = () => {
   const [account, setAccount] = useState('');
 
   return (
-    <BottomPopup>
+    <BottomPopup closePopup={action('closed Popup')}>
       <Input
         type="text"
         name={account}
