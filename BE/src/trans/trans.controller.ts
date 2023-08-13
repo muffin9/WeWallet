@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Patch,
   Post,
   Query,
   Req,
@@ -10,6 +12,7 @@ import {
 import {
   transActionDetailTypeResponse,
   transActionGetTransResponse,
+  transActionPatchTypeRequest,
   transActionPostTypeRequest,
   transActionPostTypeResponse,
 } from './interface/transaction';
@@ -52,5 +55,22 @@ export class TransController {
     const { userId } = req.user as LocalUserTypeResponse;
 
     return await this.transService.postTrans(requestTransAction, userId);
+  }
+
+  @Patch('/')
+  @UseGuards(JwtAuthGuard)
+  async patchTrans(
+    @Body() requestTransAction: transActionPatchTypeRequest,
+    @Req() req: Request,
+  ) {
+    const { userId } = req.user as LocalUserTypeResponse;
+    return await this.transService.patchTrans(requestTransAction, userId);
+  }
+
+  @Delete('/')
+  @UseGuards(JwtAuthGuard)
+  async deleteTrans(@Query('id') id: number, @Req() req: Request) {
+    const { userId } = req.user as LocalUserTypeResponse;
+    return await this.transService.deleteTrans(id, userId);
   }
 }

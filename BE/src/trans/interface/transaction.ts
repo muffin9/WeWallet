@@ -12,6 +12,10 @@ export type transActionPostTypeRequest = {
   isBudget: boolean;
 };
 
+export type transActionPatchTypeRequest = transActionPostTypeRequest & {
+  id: number;
+};
+
 export type transActionGetTransResponse = {
   status: string;
   all: { [key: string]: number };
@@ -22,8 +26,13 @@ export type transActionPostTypeResponse = {
   status: string;
 };
 
+export type transActionPatchTypeResponse = {
+  status: string;
+};
+
 export type transActionDetailTypeResponse = {
   status: string;
+  month: number;
   day: number;
   totalPrice: number;
   detailInfos: Omit<Transaction, 'user' | 'subCategory'>[];
