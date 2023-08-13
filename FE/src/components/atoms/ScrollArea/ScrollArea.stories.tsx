@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import ScrollArea from '.';
 import { PaymentMethods } from '@/constants/util';
-import { useState } from 'react';
 
 const meta: Meta<typeof ScrollArea> = {
   title: 'Primitive/ScrollArea',
@@ -11,13 +11,11 @@ const meta: Meta<typeof ScrollArea> = {
 export default meta;
 
 const PrimitiveScrollArea = () => {
-  const [paymentMethod, setPaymentMethod] = useState('');
-
   return (
     <ScrollArea
       title="결제 수단"
       values={PaymentMethods}
-      onClick={setPaymentMethod}
+      onClick={action('clicked')}
     />
   );
 };

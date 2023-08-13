@@ -1,7 +1,8 @@
 import type { Meta } from '@storybook/react';
 import GridContentArea from '.';
-import { useState } from 'react';
-import { Categories } from '@/constants/util';
+import { action } from '@storybook/addon-actions';
+
+const Categories = [{}];
 
 const meta: Meta<typeof GridContentArea> = {
   title: 'Primitive/GridContentArea',
@@ -11,11 +12,10 @@ const meta: Meta<typeof GridContentArea> = {
 export default meta;
 
 const PrimitiveGridContentArea = () => {
-  const [categoy, setCategory] = useState('');
   return (
     <GridContentArea
       title="카테고리"
-      onClick={setCategory}
+      onClick={action('clicked')}
       values={Categories}
       size="small"
     />

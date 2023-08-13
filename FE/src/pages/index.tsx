@@ -17,7 +17,7 @@ export default function Home() {
   const kakaoLogin = () => {
     const kakao = kakaoInit();
     kakao.Auth.authorize({
-      redirectUri: `${process.env.API_URL}/auth/kakao/callback`,
+      redirectUri: `${process.env.API_URL}/api/auth/kakao/callback`,
     });
   };
 

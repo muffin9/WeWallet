@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev && NODE_ENV=development next start",
     "dev:prod": "env-cmd -f ./env/production.env next build",
-    "build": "next build",
+    "build": "NODE_ENV=development && next build",
+    "build:prod": "NODE_ENV=production && next build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest",
