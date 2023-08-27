@@ -1,3 +1,4 @@
+import { USER_STATUS } from '@/utils/status';
 import { User } from '../entities/user.entity';
 import { UserModel } from './domain/user.model';
 import { loginUserTypeRequest } from './interface/login';
@@ -21,6 +22,15 @@ export class UserService {
   }
 
   signupUser(user: signupUserTypeRequest) {
+    const checkUser = this.userRepository.getUserByEmail(user.email);
+
+    if (checkUser) {
+      return {
+        status: USER_STATUS.USER_DUPLICATE_EMAIL,
+        user: checkUser,
+      };
+    }
+
     return this.userRepository.signupUser(user);
   }
 
